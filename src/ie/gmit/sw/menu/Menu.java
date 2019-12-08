@@ -1,4 +1,4 @@
-package ie.gmit.sw;
+package ie.gmit.sw.menu;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -39,10 +39,9 @@ public final class Menu {
                     try {
                         input = console.nextLine().trim();
                         setDataLoc(input);
-
                         break;
                     } catch (FileNotFoundException e) {
-                        System.out.println(OutColour.colourText("File not found. Try again.\n", OutColour.ERROR));
+                        System.out.println(OutColour.format("File not found. Try again.\n", OutColour.ERROR));
                     }
                 } while (true);
             }

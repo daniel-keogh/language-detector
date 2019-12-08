@@ -239,7 +239,7 @@ public enum Language {
 
     private final CharSequence language;
 
-    private Language(CharSequence language) {
+    Language(CharSequence language) {
         this.language = language;
     }
 

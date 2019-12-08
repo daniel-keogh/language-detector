@@ -3,32 +3,43 @@ package ie.gmit.sw;
 import java.util.*;
 
 public class Database {
+    // Map each Language to its n-gram and frequency of occurrence.
     private Map<Language, Map<Integer, LanguageEntry>> db = new TreeMap<>();
 
     public void add(CharSequence s, Language lang) {
         int kmer = s.hashCode();
+        // Get a handle on the Map for this particular language.
         Map<Integer, LanguageEntry> langDb = getLanguageEntries(lang);
 
         int frequency = 1;
+        // If the kmer is already present, increment the frequency.
         if (langDb.containsKey(kmer)) {
             frequency += langDb.get(kmer).getFrequency();
         }
+        // Overwrite existing kmer with new LanguageEntry.
         langDb.put(kmer, new LanguageEntry(kmer, frequency));
     }
 
     private Map<Integer, LanguageEntry> getLanguageEntries(Language lang){
         Map<Integer, LanguageEntry> langDb = null;
+
+        // Create the Map if it doesn't exist, return it if it does.
         if (db.containsKey(lang)) {
             langDb = db.get(lang);
-        }else {
+        } else {
             langDb = new TreeMap<Integer, LanguageEntry>();
             db.put(lang, langDb);
         }
         return langDb;
     }
 
+    /**
+     * Reduce the number of entries to a given max size.
+     * @param max Maximum number of entries.
+     */
     public void resize(int max) {
-        Set<Language> keys = db.keySet();
+        Set<Language> keys = db.keySet(); // Get a Set of all Languages.
+
         for (Language lang : keys) {
             Map<Integer, LanguageEntry> top = getTop(max, lang);
             db.put(lang, top);
@@ -37,13 +48,17 @@ public class Database {
 
     public Map<Integer, LanguageEntry> getTop(int max, Language lang) {
         Map<Integer, LanguageEntry> temp = new TreeMap<>();
+        // Get the Set of frequencies for lang.
         Set<LanguageEntry> les = new TreeSet<>(db.get(lang).values());
 
         int rank = 1;
         for (LanguageEntry le : les) {
             le.setRank(rank);
             temp.put(le.getKmer(), le);
-            if (rank == max) break;
+
+            if (rank == max)
+                break;
+
             rank++;
         }
 
@@ -68,14 +83,14 @@ public class Database {
             LanguageEntry s = subject.get(q.getKmer());
             if (s == null) {
                 distance += subject.size() + 1;
-            }else {
+            } else {
                 distance += s.getRank() - q.getRank();
             }
         }
         return distance;
     }
 
-    private class OutOfPlaceMetric implements Comparable<OutOfPlaceMetric>{
+    private class OutOfPlaceMetric implements Comparable<OutOfPlaceMetric> {
         private Language lang;
         private int distance;
 
