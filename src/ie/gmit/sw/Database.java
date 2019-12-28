@@ -38,7 +38,7 @@ public class Database {
      * @param max Maximum number of entries.
      */
     public void resize(int max) {
-        Set<Language> keys = db.keySet(); // Get a Set of all Languages.
+        Set<Language> keys = db.keySet();
 
         for (Language lang : keys) {
             Map<Integer, LanguageEntry> top = getTop(max, lang);

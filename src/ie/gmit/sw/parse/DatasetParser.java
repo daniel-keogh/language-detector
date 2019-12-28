@@ -1,27 +1,30 @@
-package ie.gmit.sw;
+package ie.gmit.sw.parse;
+
+import ie.gmit.sw.Database;
+import ie.gmit.sw.Language;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
-public class Parser implements Runnable {
+public class DatasetParser extends Parser {
     private Database db;
-    private String file;
-    private int k;
 
-    public Parser(String file, int k) {
-        this.file = file;
-        this.k = k;
+    public DatasetParser(String filePath, int k) {
+        super(filePath, k);
     }
 
     public void setDatabase(Database db) {
         this.db = db;
     }
 
+    public Database getDatabase(Database db) {
+        return this.db;
+    }
+
     @Override
     public void run() {
-        try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+        try (var br = new BufferedReader(new InputStreamReader(new FileInputStream(getFilePath())))) {
             String line;
 
             while ((line = br.readLine()) != null) {
@@ -31,8 +34,6 @@ public class Parser implements Runnable {
 
                 parse(record[0], record[1]);
             }
-
-            br.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -40,14 +41,11 @@ public class Parser implements Runnable {
 
     public void parse(String text, String lang, int ... ks) {
         Language language = Language.valueOf(lang);
+        CharSequence kmer;
 
-        for (int i = 0; i <= text.length() - k; i++) {
-            CharSequence kmer = text.substring(i, i + k);
+        for (int i = 0; i <= text.length() - getK(); i++) {
+            kmer = text.substring(i, i + getK());
             db.add(kmer, language);
         }
-    }
-
-    public void analyseQuery(CharSequence query) {
-
     }
 }

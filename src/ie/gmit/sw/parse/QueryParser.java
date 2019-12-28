@@ -1,4 +1,6 @@
-package ie.gmit.sw;
+package ie.gmit.sw.parse;
+
+import ie.gmit.sw.LanguageEntry;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -6,36 +8,34 @@ import java.nio.file.Paths;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class QueryParser {
-    private final String filePath;
-    private int k;
+public class QueryParser extends Parser {
     private Map<Integer, LanguageEntry> queryMap = new TreeMap<>();
 
     private static final int QUERY_LEN = 400;
 
     public QueryParser(String filePath, int k) {
-        this.filePath = filePath;
-        this.k = k;
-    }
-
-    public int getK() {
-        return k;
-    }
-
-    public void setK(int k) {
-        this.k = k;
+        super(filePath, k);
     }
 
     public Map<Integer, LanguageEntry> getQueryMap() {
         return new TreeMap<>(queryMap);
     }
 
+    @Override
+    public void run() {
+        try {
+            parse();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void parse() throws IOException {
         int kmer, freq = 1;
         String text = getQueryString();
 
-        for (int i = 0; i < text.length() - k; i++) {
-            kmer = text.substring(i, i + k).hashCode();
+        for (int i = 0; i < text.length() - getK(); i++) {
+            kmer = text.substring(i, i + getK()).hashCode();
 
             if (queryMap.containsKey(kmer)) {
                 freq += queryMap.get(kmer).getFrequency();
@@ -47,12 +47,11 @@ public class QueryParser {
     }
 
     /**
-     * Parse the first 400 characters from the query file into a query sentence.
-     *
+     * Parse the first 400 or so characters from the query file into a query sentence.
      * @throws IOException if an IO error occurs when reading the query file
      */
     public String getQueryString() throws IOException {
-        String content = Files.readString(Paths.get(filePath));
+        String content = Files.readString(Paths.get(getFilePath()));
         // Get rid of any extra whitespace
         content = content.replace("\r", " ")
                 .replace("\n", " ")
