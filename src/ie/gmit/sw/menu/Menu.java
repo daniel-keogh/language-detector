@@ -6,11 +6,13 @@ import java.util.Scanner;
 
 public final class Menu {
     private String dataLoc;
+    private String queryFileLoc;
 
     public Menu() { }
 
-    public Menu(String dataLoc) throws FileNotFoundException {
+    public Menu(String dataLoc, String queryFileLoc) throws FileNotFoundException {
         setDataLoc(dataLoc);
+        setQueryFileLoc(queryFileLoc);
     }
 
     public String getDataLoc() {
@@ -19,11 +21,23 @@ public final class Menu {
 
     public void setDataLoc(String dataLoc) throws FileNotFoundException {
         // Verify that the file exists
-        if (!new File(dataLoc).isFile()) {
-            throw new FileNotFoundException("Couldn't find file: "+ dataLoc);
+        if (isInvalidFile(dataLoc)) {
+            throw new FileNotFoundException("Couldn't find file: \""+ dataLoc + "\"");
         }
 
         this.dataLoc = dataLoc;
+    }
+
+    public String getQueryFileLoc() {
+        return queryFileLoc;
+    }
+
+    public void setQueryFileLoc(String queryFileLoc) throws FileNotFoundException {
+        if (isInvalidFile(queryFileLoc)) {
+            throw new FileNotFoundException("Couldn't find file: \""+ queryFileLoc + "\"");
+        }
+
+        this.queryFileLoc = queryFileLoc;
     }
 
     public void display() {
@@ -33,18 +47,27 @@ public final class Menu {
 
         if (dataLoc == null) {
             String input;
-            try (var console = new Scanner(System.in)) {
-                do {
+            var console = new Scanner(System.in);
+
+            do {
+                try {
                     System.out.print("$ Enter WiLi data location: ");
-                    try {
-                        input = console.nextLine().trim();
-                        setDataLoc(input);
-                        break;
-                    } catch (FileNotFoundException e) {
-                        System.out.println(OutColour.format("File not found. Try again.\n", OutColour.ERROR));
-                    }
-                } while (true);
-            }
+                    input = console.nextLine().trim();
+                    setDataLoc(input);
+
+                    System.out.print("$ Enter the query file location: ");
+                    input = console.nextLine().trim();
+                    setQueryFileLoc(input);
+
+                    break;
+                } catch (FileNotFoundException e) {
+                    System.out.println(OutColour.format("File not found. Try again.\n", OutColour.ERROR));
+                }
+            } while (true);
         }
+    }
+
+    private static boolean isInvalidFile(String path) {
+        return !new File(path).isFile();
     }
 }
