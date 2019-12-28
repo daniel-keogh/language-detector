@@ -27,28 +27,30 @@ public class QueryParser {
     }
 
     public Map<Integer, LanguageEntry> getQueryMap() {
-        return queryMap;
+        return new TreeMap<>(queryMap);
     }
 
     public void parse() throws IOException {
-        int kmer, freq;
+        int kmer, freq = 1;
         String text = getQueryString();
 
         for (int i = 0; i < text.length() - k; i++) {
             kmer = text.substring(i, i + k).hashCode();
 
             if (queryMap.containsKey(kmer)) {
-                freq = queryMap.get(kmer).getFrequency();
-                queryMap.put(kmer, new LanguageEntry(kmer, ++freq));
+                freq += queryMap.get(kmer).getFrequency();
+                queryMap.put(kmer, new LanguageEntry(kmer, freq));
             } else {
                 queryMap.put(kmer, new LanguageEntry(kmer, 1));
             }
         }
-
-        System.out.println(getQueryMap());
     }
 
-    // Parse the first 400 characters from the query file into a query sentence.
+    /**
+     * Parse the first 400 characters from the query file into a query sentence.
+     *
+     * @throws IOException if an IO error occurs when reading the query file
+     */
     public String getQueryString() throws IOException {
         String content = Files.readString(Paths.get(filePath));
         // Get rid of any extra whitespace
@@ -57,9 +59,9 @@ public class QueryParser {
                 .replaceAll(" +", " ");
 
         if (content.length() > QUERY_LEN) {
-            content = content.substring(0, QUERY_LEN);
+            return content.substring(0, QUERY_LEN);
         }
 
-        return new String(content.toCharArray());
+        return content;
     }
 }

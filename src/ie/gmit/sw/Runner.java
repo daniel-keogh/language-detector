@@ -3,8 +3,6 @@ package ie.gmit.sw;
 import ie.gmit.sw.menu.Menu;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class Runner {
     public static void main(String[] args) throws InterruptedException, IOException {
@@ -13,7 +11,6 @@ public class Runner {
 
         QueryParser qp = new QueryParser(menu.getQueryFileLoc(), 4);
         qp.parse();
-        System.out.println(qp.getQueryMap().values());
 
         Parser p = new Parser(menu.getDataLoc(), 4);
 
@@ -25,5 +22,7 @@ public class Runner {
         t.join();
 
         db.resize(300);
+
+        System.out.println(db.getLanguage(qp.getQueryMap()));
     }
 }
