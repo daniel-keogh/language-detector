@@ -42,6 +42,10 @@ public class LanguageEntry implements Comparable<LanguageEntry> {
 
     @Override
     public String toString() {
-        return "[" + kmer + "/" + frequency + "/" + rank + "]";
+        return "LanguageEntry{" +
+                "kmer=" + kmer +
+                ", frequency=" + frequency +
+                ", rank=" + rank +
+                '}';
     }
 }
