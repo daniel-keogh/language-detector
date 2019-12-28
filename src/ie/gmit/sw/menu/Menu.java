@@ -45,26 +45,28 @@ public final class Menu {
         System.out.println("|                              Language Detector                            |");
         System.out.println("=============================================================================");
 
-        if (dataLoc == null) {
-            String input;
-            var console = new Scanner(System.in);
+        String input;
+        var console = new Scanner(System.in);
 
-            do {
-                try {
+        do {
+            try {
+                if (dataLoc == null) {
                     System.out.print("$ Enter WiLi data location: ");
                     input = console.nextLine().trim();
                     setDataLoc(input);
+                }
 
+                if (queryFileLoc == null) {
                     System.out.print("$ Enter the query file location: ");
                     input = console.nextLine().trim();
                     setQueryFileLoc(input);
-
-                    break;
-                } catch (FileNotFoundException e) {
-                    System.out.println(OutColour.format("File not found. Try again.\n", OutColour.ERROR));
                 }
-            } while (true);
-        }
+
+                break;
+            } catch (FileNotFoundException e) {
+                System.out.println(OutColour.format("File not found. Try again.\n", OutColour.ERROR));
+            }
+        } while (true);
     }
 
     private static boolean isInvalidFile(String path) {
