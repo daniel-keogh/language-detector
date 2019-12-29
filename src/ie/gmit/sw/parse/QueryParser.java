@@ -22,15 +22,7 @@ public class QueryParser extends Parser {
     }
 
     @Override
-    public void run() {
-        try {
-            parse();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void parse() throws IOException {
+    public Void call() throws IOException {
         int kmer, freq = 1;
         String text = getQueryString();
 
@@ -44,6 +36,8 @@ public class QueryParser extends Parser {
                 queryMap.put(kmer, new LanguageEntry(kmer, 1));
             }
         }
+
+        return null;
     }
 
     /**

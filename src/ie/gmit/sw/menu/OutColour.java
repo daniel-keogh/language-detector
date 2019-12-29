@@ -27,7 +27,7 @@ public enum OutColour {
      * @param colour Specifies which OutColor to use.
      * @return The coloured String.
      */
-    public static String format(String text, OutColour colour) {
+    public static String format(CharSequence text, OutColour colour) {
         return colour.getColour() + text + RESET.getColour();
     }
 }

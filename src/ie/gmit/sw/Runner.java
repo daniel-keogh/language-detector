@@ -5,31 +5,45 @@ import ie.gmit.sw.menu.OutColour;
 import ie.gmit.sw.parse.DatasetParser;
 import ie.gmit.sw.parse.QueryParser;
 
+import java.io.IOException;
+import java.util.concurrent.*;
+
 public class Runner {
     public static void main(String[] args) throws InterruptedException {
         Menu menu = new Menu();
         menu.display();
 
-        QueryParser qp = new QueryParser(menu.getQueryFileLoc(), 4);
-        DatasetParser dp = new DatasetParser(menu.getDataLoc(), 4);
-
         Database db = new Database();
-        dp.setDatabase(db);
 
-        Thread query = new Thread(qp);
-        Thread benchmark = new Thread(dp);
+        QueryParser qParser = new QueryParser(menu.getQueryFileLoc(), 4);
+        DatasetParser dsParser = new DatasetParser(menu.getDataLoc(), db, 4);
 
-        query.start();
+        ExecutorService ex = Executors.newFixedThreadPool(2);
+
+        Future<Void> query = ex.submit(qParser);
         System.out.println("Processing query...");
-        benchmark.start();
+
+        Future<Void> benchmark = ex.submit(dsParser);
         System.out.println("Building subject database...");
 
-        query.join();
-        System.out.println("Finished processing query...");
-        benchmark.join();
-        System.out.println("Finished building subject database...");
+        try {
+            query.get();
+            System.out.println("Finished processing query...");
+        } catch (ExecutionException e) {
+            var cause = e.getCause();
+            System.out.println(cause.getMessage());
+        }
 
-        String result = db.getLanguage(qp.getQueryMap()).toString();
-        System.out.println("\nThe text appears to be written in "+ OutColour.format(result, OutColour.RESULT) +".");
+        try {
+            benchmark.get();
+            System.out.println("Finished building subject database...");
+        } catch (ExecutionException e) {
+            var cause = e.getCause();
+            System.out.println(cause.getMessage());
+        }
+
+        ex.shutdown();
+
+        menu.printResult(db.getLanguage(qParser.getQueryMap()));
     }
 }

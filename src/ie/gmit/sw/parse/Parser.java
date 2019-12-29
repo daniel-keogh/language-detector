@@ -1,6 +1,8 @@
 package ie.gmit.sw.parse;
 
-public abstract class Parser implements Runnable {
+import java.util.concurrent.Callable;
+
+public abstract class Parser implements Callable<Void> {
     private final String filePath;
     private int k;
 
@@ -20,7 +22,4 @@ public abstract class Parser implements Runnable {
     public void setK(int k) {
         this.k = k;
     }
-
-    @Override
-    public abstract void run();
 }

@@ -1,10 +1,12 @@
 package ie.gmit.sw.menu;
 
+import ie.gmit.sw.Language;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public final class Menu {
+public class Menu {
     private String dataLoc;
     private String queryFileLoc;
 
@@ -20,7 +22,6 @@ public final class Menu {
     }
 
     public void setDataLoc(String dataLoc) throws FileNotFoundException {
-        // Verify that the file exists
         if (isInvalidFile(dataLoc)) {
             throw new FileNotFoundException("Couldn't find file: \""+ dataLoc + "\"");
         }
@@ -64,9 +65,13 @@ public final class Menu {
 
                 break;
             } catch (FileNotFoundException e) {
-                System.out.println(OutColour.format("File not found. Try again.\n", OutColour.ERROR));
+                System.out.println(OutColour.format(e.getMessage() +". Try again.\n", OutColour.ERROR));
             }
         } while (true);
+    }
+
+    public void printResult(Language lang) {
+        System.out.println("\nThe text appears to be written in "+ OutColour.format(lang.getLanguageName(), OutColour.RESULT) +".");
     }
 
     private static boolean isInvalidFile(String path) {
