@@ -1,4 +1,4 @@
-package ie.gmit.sw.parse;
+package ie.gmit.sw.parser;
 
 import ie.gmit.sw.LanguageEntry;
 
@@ -10,15 +10,27 @@ import java.util.TreeMap;
 
 public class QueryParser extends Parser {
     private Map<Integer, LanguageEntry> queryMap = new TreeMap<>();
-
-    private static final int QUERY_LEN = 400;
+    private int queryLen = 400;
 
     public QueryParser(String filePath, int k) {
         super(filePath, k);
     }
 
+    public QueryParser(String filePath, int queryLength, int k) {
+        this(filePath, k);
+        this.queryLen = queryLength;
+    }
+
     public Map<Integer, LanguageEntry> getQueryMap() {
         return new TreeMap<>(queryMap);
+    }
+
+    public int getQueryLen() {
+        return queryLen;
+    }
+
+    public void setQueryLen(int queryLen) {
+        this.queryLen = queryLen;
     }
 
     @Override
@@ -51,8 +63,8 @@ public class QueryParser extends Parser {
                 .replace("\n", " ")
                 .replaceAll(" +", " ");
 
-        if (content.length() > QUERY_LEN) {
-            return content.substring(0, QUERY_LEN);
+        if (content.length() > queryLen) {
+            return content.substring(0, queryLen);
         }
 
         return content;

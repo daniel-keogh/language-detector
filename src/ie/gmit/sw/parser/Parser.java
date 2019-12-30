@@ -1,4 +1,4 @@
-package ie.gmit.sw.parse;
+package ie.gmit.sw.parser;
 
 import java.util.concurrent.Callable;
 

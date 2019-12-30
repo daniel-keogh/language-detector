@@ -1,11 +1,9 @@
 package ie.gmit.sw;
 
 import ie.gmit.sw.menu.Menu;
-import ie.gmit.sw.menu.OutColour;
-import ie.gmit.sw.parse.DatasetParser;
-import ie.gmit.sw.parse.QueryParser;
+import ie.gmit.sw.parser.DatasetParser;
+import ie.gmit.sw.parser.QueryParser;
 
-import java.io.IOException;
 import java.util.concurrent.*;
 
 public class Runner {
@@ -13,10 +11,8 @@ public class Runner {
         Menu menu = new Menu();
         menu.display();
 
-        Database db = new Database();
-
         QueryParser qParser = new QueryParser(menu.getQueryFileLoc(), 4);
-        DatasetParser dsParser = new DatasetParser(menu.getDataLoc(), db, 4);
+        DatasetParser dsParser = new DatasetParser(menu.getDataLoc(), 4);
 
         ExecutorService ex = Executors.newFixedThreadPool(2);
 
@@ -44,6 +40,6 @@ public class Runner {
 
         ex.shutdown();
 
-        menu.printResult(db.getLanguage(qParser.getQueryMap()));
+        menu.printResult(dsParser.getDatabase().getLanguage(qParser.getQueryMap()));
     }
 }
