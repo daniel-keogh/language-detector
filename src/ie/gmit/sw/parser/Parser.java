@@ -4,9 +4,9 @@ import java.util.concurrent.Callable;
 
 public abstract class Parser implements Callable<Void> {
     private final String filePath;
-    private int k;
+    private int[] k;
 
-    public Parser(String filePath, int k) {
+    public Parser(String filePath, int ... k) {
         this.filePath = filePath;
         this.k = k;
     }
@@ -15,11 +15,11 @@ public abstract class Parser implements Callable<Void> {
         return filePath;
     }
 
-    public int getK() {
+    public int[] getK() {
         return k;
     }
 
-    public void setK(int k) {
+    public void setK(int ... k) {
         this.k = k;
     }
 }

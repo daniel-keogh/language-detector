@@ -11,7 +11,7 @@ import java.io.InputStreamReader;
 public class DatasetParser extends Parser {
     private Database db = new Database();
 
-    public DatasetParser(String filePath, int k) {
+    public DatasetParser(String filePath, int ... k) {
         super(filePath, k);
     }
 
@@ -39,9 +39,11 @@ public class DatasetParser extends Parser {
     public void parseRecord(String text, String lang) {
         Language language = Language.valueOf(lang);
 
-        for (int i = 0; i <= text.length() - getK(); i++) {
-            CharSequence kmer = text.substring(i, i + getK());
-            db.add(kmer, language);
+        for (int i = 0; i < getK().length; i++) {
+            for (int j = 0; j <= text.length() - getK()[i]; j++) {
+                CharSequence kmer = text.substring(j, j + getK()[i]);
+                db.add(kmer, language);
+            }
         }
     }
 }

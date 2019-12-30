@@ -12,13 +12,8 @@ public class QueryParser extends Parser {
     private Map<Integer, LanguageEntry> queryMap = new TreeMap<>();
     private int queryLen = 400;
 
-    public QueryParser(String filePath, int k) {
+    public QueryParser(String filePath, int ... k) {
         super(filePath, k);
-    }
-
-    public QueryParser(String filePath, int queryLength, int k) {
-        this(filePath, k);
-        this.queryLen = queryLength;
     }
 
     public Map<Integer, LanguageEntry> getQueryMap() {
@@ -38,14 +33,16 @@ public class QueryParser extends Parser {
         int kmer, freq = 1;
         String text = getQueryString();
 
-        for (int i = 0; i < text.length() - getK(); i++) {
-            kmer = text.substring(i, i + getK()).hashCode();
+        for (int i = 0; i < getK().length; i++) {
+            for (int j = 0; j <= text.length() - getK()[i]; j++) {
+                kmer = text.substring(j, j + getK()[i]).hashCode();
 
-            if (queryMap.containsKey(kmer)) {
-                freq += queryMap.get(kmer).getFrequency();
-                queryMap.put(kmer, new LanguageEntry(kmer, freq));
-            } else {
-                queryMap.put(kmer, new LanguageEntry(kmer, 1));
+                if (queryMap.containsKey(kmer)) {
+                    freq += queryMap.get(kmer).getFrequency();
+                    queryMap.put(kmer, new LanguageEntry(kmer, freq));
+                } else {
+                    queryMap.put(kmer, new LanguageEntry(kmer, 1));
+                }
             }
         }
 

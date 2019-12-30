@@ -8,11 +8,13 @@ import java.util.concurrent.*;
 
 public class Runner {
     public static void main(String[] args) throws InterruptedException {
+        double startTime = System.currentTimeMillis();
+
         Menu menu = new Menu();
         menu.display();
 
-        QueryParser qParser = new QueryParser(menu.getQueryFileLoc(), 4);
-        DatasetParser dsParser = new DatasetParser(menu.getDataLoc(), 4);
+        QueryParser qParser = new QueryParser(menu.getQueryFileLoc(), 1, 2, 3, 4);
+        DatasetParser dsParser = new DatasetParser(menu.getDataLoc(), 1, 2, 3, 4);
 
         ExecutorService ex = Executors.newFixedThreadPool(2);
 
@@ -41,5 +43,7 @@ public class Runner {
         ex.shutdown();
 
         menu.printResult(dsParser.getDatabase().getLanguage(qParser.getQueryMap()));
+
+        System.out.println("\nTime: "+ (System.currentTimeMillis() - startTime) / 1000 +" (s)");
     }
 }
