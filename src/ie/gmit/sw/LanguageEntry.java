@@ -6,7 +6,6 @@ public class LanguageEntry implements Comparable<LanguageEntry> {
     private int rank;
 
     public LanguageEntry(int kmer, int frequency) {
-        super();
         this.kmer = kmer;
         this.frequency = frequency;
     }

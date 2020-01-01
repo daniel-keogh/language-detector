@@ -10,13 +10,6 @@ public class Menu {
     private String dataLoc;
     private String queryFileLoc;
 
-    public Menu() { }
-
-    public Menu(String dataLoc, String queryFileLoc) throws FileNotFoundException {
-        setDataLoc(dataLoc);
-        setQueryFileLoc(queryFileLoc);
-    }
-
     public String getDataLoc() {
         return dataLoc;
     }
@@ -68,10 +61,6 @@ public class Menu {
                 System.out.println(OutColour.format(e.getMessage() +". Try again.\n", OutColour.ERROR));
             }
         } while (true);
-    }
-
-    public void printResult(Language lang) {
-        System.out.println("\nThe text appears to be written in "+ OutColour.format(lang.getLanguageName(), OutColour.RESULT) +".");
     }
 
     private static boolean isInvalidFile(String path) {

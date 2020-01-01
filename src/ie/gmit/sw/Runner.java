@@ -1,6 +1,7 @@
 package ie.gmit.sw;
 
 import ie.gmit.sw.menu.Menu;
+import ie.gmit.sw.menu.OutColour;
 import ie.gmit.sw.parser.DatasetParser;
 import ie.gmit.sw.parser.QueryParser;
 
@@ -8,10 +9,10 @@ import java.util.concurrent.*;
 
 public class Runner {
     public static void main(String[] args) throws InterruptedException {
-        double startTime = System.currentTimeMillis();
-
         Menu menu = new Menu();
         menu.display();
+
+        double startTime = System.currentTimeMillis();
 
         QueryParser qParser = new QueryParser(menu.getQueryFileLoc(), 1, 2, 3, 4);
         DatasetParser dsParser = new DatasetParser(menu.getDataLoc(), 1, 2, 3, 4);
@@ -42,7 +43,8 @@ public class Runner {
 
         ex.shutdown();
 
-        menu.printResult(dsParser.getDatabase().getLanguage(qParser.getQueryMap()));
+        System.out.printf("\nThe text appears to be written in %s.\n",
+                OutColour.format(dsParser.detect(qParser.getQueryMap()).toString(), OutColour.RESULT));
 
         System.out.println("\nTime: "+ (System.currentTimeMillis() - startTime) / 1000 +" (s)");
     }
