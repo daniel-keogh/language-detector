@@ -53,7 +53,7 @@ public class QueryParser extends Parser {
      * Parse the first 400 or so characters from the query file into a query sentence.
      * @throws IOException if an IO error occurs when reading the query file
      */
-    public String getQueryString() throws IOException {
+    private String getQueryString() throws IOException {
         String content = Files.readString(Paths.get(getFilePath()));
         // Get rid of any extra whitespace
         content = content.replace("\r", " ")

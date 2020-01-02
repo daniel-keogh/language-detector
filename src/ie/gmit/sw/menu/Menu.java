@@ -1,7 +1,5 @@
 package ie.gmit.sw.menu;
 
-import ie.gmit.sw.Language;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;

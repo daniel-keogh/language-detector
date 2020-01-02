@@ -5,7 +5,10 @@ import ie.gmit.sw.menu.OutColour;
 import ie.gmit.sw.parser.DatasetParser;
 import ie.gmit.sw.parser.QueryParser;
 
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class Runner {
     public static void main(String[] args) throws InterruptedException {
@@ -27,7 +30,7 @@ public class Runner {
 
         try {
             query.get();
-            System.out.println("Finished processing query...");
+            System.out.println("Finished processing query.");
         } catch (ExecutionException e) {
             var cause = e.getCause();
             System.out.println(cause.getMessage());
@@ -35,7 +38,7 @@ public class Runner {
 
         try {
             benchmark.get();
-            System.out.println("Finished building subject database...");
+            System.out.println("Finished building subject database.");
         } catch (ExecutionException e) {
             var cause = e.getCause();
             System.out.println(cause.getMessage());
@@ -43,8 +46,8 @@ public class Runner {
 
         ex.shutdown();
 
-        System.out.printf("\nThe text appears to be written in %s.\n",
-                OutColour.format(dsParser.detect(qParser.getQueryMap()).toString(), OutColour.RESULT));
+        Language result = dsParser.detect(qParser.getQueryMap());
+        System.out.printf("\nThe text appears to be written in %s.\n", OutColour.format(result.toString(), OutColour.RESULT));
 
         System.out.println("\nTime: "+ (System.currentTimeMillis() - startTime) / 1000 +" (s)");
     }

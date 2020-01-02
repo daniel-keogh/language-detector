@@ -1,10 +1,13 @@
 package ie.gmit.sw;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 public class Database {
-    // Map each Language to its n-gram and frequency of occurrence.
-    private Map<Language, Map<Integer, LanguageEntry>> db = new TreeMap<>();
+    private ConcurrentMap<Language, ConcurrentMap<Integer, LanguageEntry>> db = new ConcurrentSkipListMap<>();
 
     /**
      * Adds a given n-gram to the DB.
@@ -14,14 +17,18 @@ public class Database {
      */
     public void add(CharSequence s, Language lang) {
         int kmer = s.hashCode();
-        Map<Integer, LanguageEntry> langDb = getLanguageEntries(lang);
+        ConcurrentMap<Integer, LanguageEntry> langDb = getLanguageEntries(lang);
 
-        int frequency = 1;
         if (langDb.containsKey(kmer)) {
-            frequency += langDb.get(kmer).getFrequency();
+            langDb.computeIfPresent(kmer, Database::incFrequency);
+            return;
         }
 
-        langDb.put(kmer, new LanguageEntry(kmer, frequency));
+        langDb.put(kmer, new LanguageEntry(kmer, 1));
+    }
+
+    private static LanguageEntry incFrequency(Integer kmer, LanguageEntry langEntry) {
+        return langEntry.setFrequency(langEntry.getFrequency() + 1);
     }
 
     /**
@@ -30,13 +37,13 @@ public class Database {
      * @param lang The Language whose Map is to be returned
      * @return The Map associated with <code>lang</code>
      */
-    private Map<Integer, LanguageEntry> getLanguageEntries(Language lang){
-        Map<Integer, LanguageEntry> langDb;
+    private ConcurrentMap<Integer, LanguageEntry> getLanguageEntries(Language lang){
+        ConcurrentMap<Integer, LanguageEntry> langDb;
 
         if (db.containsKey(lang)) {
             langDb = db.get(lang);
         } else {
-            langDb = new TreeMap<>();
+            langDb = new ConcurrentSkipListMap<>();
             db.put(lang, langDb);
         }
 
@@ -51,7 +58,7 @@ public class Database {
         Set<Language> keys = db.keySet();
 
         for (Language lang : keys) {
-            Map<Integer, LanguageEntry> top = getTop(max, lang);
+            ConcurrentMap<Integer, LanguageEntry> top = getTop(max, lang);
             db.put(lang, top);
         }
     }
@@ -62,8 +69,8 @@ public class Database {
      * @param lang The language the n-grams belong to
      * @return The most frequently occurring n-grams for the Language <code>lang</code>
      */
-    public Map<Integer, LanguageEntry> getTop(int max, Language lang) {
-        Map<Integer, LanguageEntry> temp = new TreeMap<>();
+    public ConcurrentMap<Integer, LanguageEntry> getTop(int max, Language lang) {
+        ConcurrentMap<Integer, LanguageEntry> temp = new ConcurrentSkipListMap<>();
         // Get the Set of frequencies for lang.
         Set<LanguageEntry> les = new TreeSet<>(db.get(lang).values());
 
@@ -125,7 +132,6 @@ public class Database {
         private int distance;
 
         public OutOfPlaceMetric(Language lang, int distance) {
-            super();
             this.lang = lang;
             this.distance = distance;
         }

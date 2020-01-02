@@ -14,16 +14,20 @@ public class LanguageEntry implements Comparable<LanguageEntry> {
         return kmer;
     }
 
-    public void setKmer(int kmer) {
+    public LanguageEntry setKmer(int kmer) {
         this.kmer = kmer;
+
+        return this;
     }
 
     public int getFrequency() {
         return frequency;
     }
 
-    public void setFrequency(int frequency) {
+    public LanguageEntry setFrequency(int frequency) {
         this.frequency = frequency;
+
+        return this;
     }
 
     public int getRank() {
