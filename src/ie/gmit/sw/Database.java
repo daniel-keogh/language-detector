@@ -1,5 +1,6 @@
 package ie.gmit.sw;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -125,6 +126,28 @@ public class Database {
         }
 
         return distance;
+    }
+
+    @Override
+    public String toString() {
+
+        StringBuilder sb = new StringBuilder();
+
+        int langCount = 0;
+        int kmerCount = 0;
+        Set<Language> keys = db.keySet();
+        for (Language lang : keys) {
+            langCount++;
+            sb.append(lang.name() + "->\n");
+
+            Collection<LanguageEntry> m = new TreeSet<>(db.get(lang).values());
+            kmerCount += m.size();
+            for (LanguageEntry le : m) {
+                sb.append("\t" + le + "\n");
+            }
+        }
+        sb.append(kmerCount + " total k-mers in " + langCount + " languages");
+        return sb.toString();
     }
 
     private class OutOfPlaceMetric implements Comparable<OutOfPlaceMetric> {
