@@ -61,8 +61,12 @@ public class Runner {
         dsParser.resize();
         ex.shutdown();
 
-        Language result = dsParser.detect(qParser.getQueryMapping());
-        System.out.printf("\nThe text appears to be written in %s.\n", OutColour.format(result.toString(), OutColour.RESULT));
+        try {
+            Language result = dsParser.detect(qParser.getQueryMapping());
+            System.out.printf("\nThe text appears to be written in %s.\n", OutColour.format(result.toString(), OutColour.RESULT));
+        } catch (IllegalStateException e) {
+            System.err.println("[Error] Failed to detect the language.");
+        }
 
         System.out.println("\nTime: "+ (System.currentTimeMillis() - startTime) / 1000 +" (s)");
     }

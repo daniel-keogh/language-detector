@@ -21,6 +21,10 @@ public class SubjectParser extends Parser {
     }
 
     public Language detect(Map<Integer, LanguageEntry> query) {
+        if (db.size() == 0) {
+            throw new IllegalStateException("The Subject Database is empty.");
+        }
+
         return db.getLanguage(query);
     }
 

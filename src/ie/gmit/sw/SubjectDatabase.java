@@ -10,6 +10,10 @@ import java.util.concurrent.ConcurrentSkipListMap;
 public class SubjectDatabase {
     private ConcurrentMap<Language, ConcurrentMap<Integer, LanguageEntry>> db = new ConcurrentSkipListMap<>();
 
+    public int size() {
+        return db.size();
+    }
+
     /**
      * Adds a given n-gram to the DB.
      * If the n-gram already exists, its frequency of occurrence is instead incremented.
@@ -123,28 +127,6 @@ public class SubjectDatabase {
         return distance;
     }
 
-    @Override
-    public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-
-        int langCount = 0;
-        int kmerCount = 0;
-        Set<Language> keys = db.keySet();
-        for (Language lang : keys) {
-            langCount++;
-            sb.append(lang.name() + "->\n");
-
-            Collection<LanguageEntry> m = new TreeSet<>(db.get(lang).values());
-            kmerCount += m.size();
-            for (LanguageEntry le : m) {
-                sb.append("\t" + le + "\n");
-            }
-        }
-        sb.append(kmerCount + " total k-mers in " + langCount + " languages");
-        return sb.toString();
-    }
-
     private class OutOfPlaceMetric implements Comparable<OutOfPlaceMetric> {
         private Language lang;
         private int distance;
@@ -171,5 +153,27 @@ public class SubjectDatabase {
         public String toString() {
             return "[lang=" + lang + ", distance=" + getAbsoluteDistance() + "]";
         }
+    }
+
+    @Override
+    public String toString() {
+
+        StringBuilder sb = new StringBuilder();
+
+        int langCount = 0;
+        int kmerCount = 0;
+        Set<Language> keys = db.keySet();
+        for (Language lang : keys) {
+            langCount++;
+            sb.append(lang.name() + "->\n");
+
+            Collection<LanguageEntry> m = new TreeSet<>(db.get(lang).values());
+            kmerCount += m.size();
+            for (LanguageEntry le : m) {
+                sb.append("\t" + le + "\n");
+            }
+        }
+        sb.append(kmerCount + " total k-mers in " + langCount + " languages");
+        return sb.toString();
     }
 }
