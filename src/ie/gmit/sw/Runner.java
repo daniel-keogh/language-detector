@@ -2,7 +2,7 @@ package ie.gmit.sw;
 
 import ie.gmit.sw.menu.Menu;
 import ie.gmit.sw.menu.OutColour;
-import ie.gmit.sw.parser.DatasetParser;
+import ie.gmit.sw.parser.SubjectParser;
 import ie.gmit.sw.parser.QueryParser;
 
 import java.io.IOException;
@@ -19,7 +19,7 @@ public class Runner {
         double startTime = System.currentTimeMillis();
 
         QueryParser qParser = new QueryParser(menu.getQueryFileLoc(), 1, 2, 3, 4);
-        DatasetParser dsParser = new DatasetParser(menu.getDataLoc(), 1, 2, 3, 4);
+        SubjectParser dsParser = new SubjectParser(menu.getDataLoc(), 1, 2, 3, 4);
 
         ExecutorService ex = Executors.newFixedThreadPool(2);
 

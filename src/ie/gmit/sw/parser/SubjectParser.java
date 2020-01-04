@@ -1,6 +1,6 @@
 package ie.gmit.sw.parser;
 
-import ie.gmit.sw.Database;
+import ie.gmit.sw.SubjectDatabase;
 import ie.gmit.sw.Language;
 import ie.gmit.sw.LanguageEntry;
 
@@ -13,10 +13,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class DatasetParser extends Parser {
-    private Database db = new Database();
+public class SubjectParser extends Parser {
+    private SubjectDatabase db = new SubjectDatabase();
 
-    public DatasetParser(String filePath, int ... k) {
+    public SubjectParser(String filePath, int ... k) {
         super(filePath, k);
     }
 
