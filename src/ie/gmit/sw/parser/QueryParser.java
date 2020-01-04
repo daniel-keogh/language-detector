@@ -1,38 +1,26 @@
 package ie.gmit.sw.parser;
 
-import ie.gmit.sw.LanguageEntry;
+import ie.gmit.sw.query.Query;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-public class QueryParser extends Parser {
+public class QueryParser extends Parser<Query> {
     private Map<Integer, LanguageEntry> queryMap = new TreeMap<>();
-    private int queryLength = 400;
 
-    public QueryParser(String filePath, int ... k) {
-        super(filePath, k);
+    public QueryParser(Query query, int ... k) {
+        super(query, k);
     }
 
     public Map<Integer, LanguageEntry> getQueryMapping() {
         return new TreeMap<>(queryMap);
     }
 
-    public int getQueryLength() {
-        return queryLength;
-    }
-
-    public void setQueryLength(int queryLength) {
-        this.queryLength = queryLength;
-    }
-
     @Override
-    public Void call() throws IOException {
-        String text = getQueryString();
+    public Void call() throws Exception {
+        String text = getParsable().getQueryString();
 
         for (int i = 0; i < getK().length; i++) {
             for (int j = 0; j <= text.length() - getK()[i]; j++) {
@@ -58,23 +46,5 @@ public class QueryParser extends Parser {
         for (var entry : entrySet) {
             queryMap.put(entry.getKmer(), entry.setRank(++rank));
         }
-    }
-
-    /**
-     * Parse the first 400 or so characters from the query file into a query sentence.
-     * @throws IOException if an IO error occurs when reading the query file
-     */
-    private String getQueryString() throws IOException {
-        // Read string and get rid of any extra whitespace
-        String queryString = Files.readString(Path.of(getFilePath()))
-                .replace("\r", " ")
-                .replace("\n", " ")
-                .replaceAll(" +", " ");
-
-        if (queryString.length() > queryLength) {
-            return queryString.substring(0, queryLength);
-        }
-
-        return queryString;
     }
 }

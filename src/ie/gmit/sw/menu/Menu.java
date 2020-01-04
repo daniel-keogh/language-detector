@@ -1,35 +1,32 @@
 package ie.gmit.sw.menu;
 
+import ie.gmit.sw.query.Query;
+import ie.gmit.sw.query.QueryFile;
+import ie.gmit.sw.query.QueryText;
+
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.nio.file.Path;
 import java.util.Scanner;
 
 public class Menu {
-    private String dataLoc;
-    private String queryFileLoc;
+    private Path dataPath;
+    private Query query;
 
-    public String getDataLoc() {
-        return dataLoc;
+    public Path getDataPath() {
+        return dataPath;
     }
 
-    public void setDataLoc(String dataLoc) throws FileNotFoundException {
-        if (isInvalidFile(dataLoc)) {
-            throw new FileNotFoundException("Couldn't find file: \""+ dataLoc + "\"");
-        }
-
-        this.dataLoc = dataLoc;
+    public void setDataPath(Path dataPath) {
+        this.dataPath = dataPath;
     }
 
-    public String getQueryFileLoc() {
-        return queryFileLoc;
+    public Query getQuery() {
+        return query;
     }
 
-    public void setQueryFileLoc(String queryFileLoc) throws FileNotFoundException {
-        if (isInvalidFile(queryFileLoc)) {
-            throw new FileNotFoundException("Couldn't find file: \""+ queryFileLoc + "\"");
-        }
-
-        this.queryFileLoc = queryFileLoc;
+    public void setQuery(Query query) {
+        this.query = query;
     }
 
     public void display() {
@@ -42,16 +39,26 @@ public class Menu {
 
         do {
             try {
-                if (dataLoc == null) {
+                if (dataPath == null) {
                     System.out.print("$ Enter WiLi data location: ");
                     input = console.nextLine().trim();
-                    setDataLoc(input);
+
+                    if (isFile(input)) {
+                        setDataPath(Path.of(input));
+                    } else {
+                        throw new FileNotFoundException("That file does not exist");
+                    }
                 }
 
-                if (queryFileLoc == null) {
-                    System.out.print("$ Enter the query file location: ");
+                if (query == null) {
+                    System.out.print("$ Enter the query text/file: ");
                     input = console.nextLine().trim();
-                    setQueryFileLoc(input);
+
+                    if (isFile(input)) {
+                        setQuery(new QueryFile(Path.of(input)));
+                    } else {
+                        setQuery(new QueryText(input));
+                    }
                 }
 
                 break;
@@ -61,7 +68,7 @@ public class Menu {
         } while (true);
     }
 
-    private static boolean isInvalidFile(String path) {
-        return !new File(path).isFile();
+    private static boolean isFile(String filename) {
+        return new File(filename).isFile();
     }
 }

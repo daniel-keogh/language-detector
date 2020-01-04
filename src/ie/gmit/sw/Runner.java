@@ -18,8 +18,8 @@ public class Runner {
 
         double startTime = System.currentTimeMillis();
 
-        QueryParser qParser = new QueryParser(menu.getQueryFileLoc(), 1, 2, 3, 4);
-        SubjectParser dsParser = new SubjectParser(menu.getDataLoc(), 1, 2, 3, 4);
+        QueryParser qParser = new QueryParser(menu.getQuery(), 1, 2, 3, 4);
+        SubjectParser dsParser = new SubjectParser(menu.getDataPath(), 1, 2, 3, 4);
 
         ExecutorService ex = Executors.newFixedThreadPool(2);
 
@@ -35,7 +35,7 @@ public class Runner {
                 System.out.println("Finished processing query.");
             } catch (ExecutionException e) {
                 if (e.getCause() instanceof IOException) {
-                    System.err.println("[Error] There was an issue with reading: "+ menu.getQueryFileLoc());
+                    System.err.println("[Error] There was an issue with reading: "+ menu.getQuery());
                 } else {
                     System.err.println(e.getMessage());
                 }
@@ -47,7 +47,7 @@ public class Runner {
                 System.out.println("Finished building subject database.");
             } catch (ExecutionException e) {
                 if (e.getCause() instanceof IOException) {
-                    System.err.println("[Error] There was an issue with reading: "+ menu.getDataLoc());
+                    System.err.println("[Error] There was an issue with reading: "+ menu.getDataPath());
                 } else {
                     System.err.println(e.getMessage());
                 }
@@ -65,7 +65,7 @@ public class Runner {
             Language result = dsParser.detect(qParser.getQueryMapping());
             System.out.printf("\nThe text appears to be written in %s.\n", OutColour.format(result.toString(), OutColour.RESULT));
         } catch (IllegalStateException e) {
-            System.err.println("[Error] Failed to detect the language.");
+            System.err.println("\nFailed to detect the language: "+ e.getMessage());
         }
 
         System.out.println("\nTime: "+ (System.currentTimeMillis() - startTime) / 1000 +" (s)");

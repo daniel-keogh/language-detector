@@ -1,4 +1,4 @@
-package ie.gmit.sw;
+package ie.gmit.sw.parser;
 
 public class LanguageEntry implements Comparable<LanguageEntry> {
     private int kmer;

@@ -1,22 +1,21 @@
 package ie.gmit.sw.parser;
 
-import ie.gmit.sw.SubjectDatabase;
 import ie.gmit.sw.Language;
-import ie.gmit.sw.LanguageEntry;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class SubjectParser extends Parser {
+public class SubjectParser extends Parser<Path> {
     private SubjectDatabase db = new SubjectDatabase();
 
-    public SubjectParser(String filePath, int ... k) {
+    public SubjectParser(Path filePath, int ... k) {
         super(filePath, k);
     }
 
@@ -41,7 +40,7 @@ public class SubjectParser extends Parser {
     public Void call() throws IOException {
         ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
-        var br = new BufferedReader(new InputStreamReader(new FileInputStream(getFilePath())));
+        var br = new BufferedReader(new InputStreamReader(new FileInputStream(getParsable().toFile())));
         String line;
 
         while ((line = br.readLine()) != null) {

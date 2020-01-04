@@ -1,4 +1,6 @@
-package ie.gmit.sw;
+package ie.gmit.sw.parser;
+
+import ie.gmit.sw.Language;
 
 import java.util.Collection;
 import java.util.Map;
