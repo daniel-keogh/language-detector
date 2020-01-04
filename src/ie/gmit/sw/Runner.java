@@ -5,6 +5,7 @@ import ie.gmit.sw.menu.OutColour;
 import ie.gmit.sw.parser.DatasetParser;
 import ie.gmit.sw.parser.QueryParser;
 
+import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -29,19 +30,32 @@ public class Runner {
         System.out.println("Building subject database...");
 
         try {
-            query.get();
-            System.out.println("Finished processing query.");
-        } catch (ExecutionException e) {
-            var cause = e.getCause();
-            System.out.println(cause.getMessage());
-        }
+            try {
+                query.get();
+                System.out.println("Finished processing query.");
+            } catch (ExecutionException e) {
+                if (e.getCause() instanceof IOException) {
+                    System.err.println("[Error] There was an issue with reading: "+ menu.getQueryFileLoc());
+                } else {
+                    System.err.println(e.getMessage());
+                }
+                throw e;
+            }
 
-        try {
-            benchmark.get();
-            System.out.println("Finished building subject database.");
+            try {
+                benchmark.get();
+                System.out.println("Finished building subject database.");
+            } catch (ExecutionException e) {
+                if (e.getCause() instanceof IOException) {
+                    System.err.println("[Error] There was an issue with reading: "+ menu.getDataLoc());
+                } else {
+                    System.err.println(e.getMessage());
+                }
+                throw e;
+            }
         } catch (ExecutionException e) {
-            var cause = e.getCause();
-            System.out.println(cause.getMessage());
+            ex.shutdownNow();
+            return;
         }
 
         ex.shutdown();
