@@ -7,7 +7,7 @@ public class QueryString implements Query {
         this.queryString = removeWhitespace(queryString);
     }
 
-    public QueryString setQueryText(String queryString) {
+    public QueryString setQueryString(String queryString) {
         this.queryString = removeWhitespace(queryString);
 
         return this;
