@@ -38,6 +38,10 @@ public class LanguageEntry implements Comparable<LanguageEntry> {
         this.rank = rank;
     }
 
+    public static LanguageEntry incrementFrequency(Integer kmer, LanguageEntry langEntry) {
+        return langEntry.setFrequency(langEntry.getFrequency() + 1);
+    }
+
     @Override
     public int compareTo(LanguageEntry next) {
         return -Integer.compare(frequency, next.getFrequency());

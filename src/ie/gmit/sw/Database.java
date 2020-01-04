@@ -21,15 +21,10 @@ public class Database {
         ConcurrentMap<Integer, LanguageEntry> langDb = getLanguageEntries(lang);
 
         if (langDb.containsKey(kmer)) {
-            langDb.computeIfPresent(kmer, Database::incFrequency);
-            return;
+            langDb.computeIfPresent(kmer, LanguageEntry::incrementFrequency);
+        } else {
+            langDb.put(kmer, new LanguageEntry(kmer, 1));
         }
-
-        langDb.put(kmer, new LanguageEntry(kmer, 1));
-    }
-
-    private static LanguageEntry incFrequency(Integer kmer, LanguageEntry langEntry) {
-        return langEntry.setFrequency(langEntry.getFrequency() + 1);
     }
 
     /**

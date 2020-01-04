@@ -4,7 +4,7 @@ import ie.gmit.sw.LanguageEntry;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -30,16 +30,14 @@ public class QueryParser extends Parser {
 
     @Override
     public Void call() throws IOException {
-        int kmer, freq = 1;
         String text = getQueryString();
 
         for (int i = 0; i < getK().length; i++) {
             for (int j = 0; j <= text.length() - getK()[i]; j++) {
-                kmer = text.substring(j, j + getK()[i]).hashCode();
+                int kmer = text.substring(j, j + getK()[i]).hashCode();
 
                 if (queryMap.containsKey(kmer)) {
-                    freq += queryMap.get(kmer).getFrequency();
-                    queryMap.put(kmer, new LanguageEntry(kmer, freq));
+                    queryMap.computeIfPresent(kmer, LanguageEntry::incrementFrequency);
                 } else {
                     queryMap.put(kmer, new LanguageEntry(kmer, 1));
                 }
@@ -54,7 +52,7 @@ public class QueryParser extends Parser {
      * @throws IOException if an IO error occurs when reading the query file
      */
     private String getQueryString() throws IOException {
-        String content = Files.readString(Paths.get(getFilePath()));
+        String content = Files.readString(Path.of(getFilePath()));
         // Get rid of any extra whitespace
         content = content.replace("\r", " ")
                 .replace("\n", " ")
