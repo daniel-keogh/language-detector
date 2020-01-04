@@ -26,8 +26,8 @@ public class QueryFile implements Query {
         // Read string and get rid of any extra whitespace
         String queryString = removeWhitespace(Files.readString(filepath));
 
-        if (queryString.length() > QUERY_LENGTH) {
-            return queryString.substring(0, QUERY_LENGTH);
+        if (queryString.length() > MAX_QUERY_LENGTH) {
+            return queryString.substring(0, MAX_QUERY_LENGTH);
         }
 
         return queryString;

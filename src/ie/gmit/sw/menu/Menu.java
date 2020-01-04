@@ -2,7 +2,7 @@ package ie.gmit.sw.menu;
 
 import ie.gmit.sw.query.Query;
 import ie.gmit.sw.query.QueryFile;
-import ie.gmit.sw.query.QueryText;
+import ie.gmit.sw.query.QueryString;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -57,7 +57,7 @@ public class Menu {
                     if (isFile(input)) {
                         setQuery(new QueryFile(Path.of(input)));
                     } else {
-                        setQuery(new QueryText(input));
+                        setQuery(new QueryString(input));
                     }
                 }
 
