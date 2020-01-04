@@ -24,6 +24,11 @@ public class DatasetParser extends Parser {
         return db.getLanguage(query);
     }
 
+    public void resize() {
+        final int MAX = 300;
+        db.resize(MAX);
+    }
+
     public void resize(int max) {
         db.resize(max);
     }
@@ -44,7 +49,6 @@ public class DatasetParser extends Parser {
         }
 
         br.close();
-
         executor.shutdown();
         try {
             executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);

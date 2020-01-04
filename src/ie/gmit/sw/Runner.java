@@ -58,9 +58,10 @@ public class Runner {
             return;
         }
 
+        dsParser.resize();
         ex.shutdown();
 
-        Language result = dsParser.detect(qParser.getQueryMap());
+        Language result = dsParser.detect(qParser.getQueryMapping());
         System.out.printf("\nThe text appears to be written in %s.\n", OutColour.format(result.toString(), OutColour.RESULT));
 
         System.out.println("\nTime: "+ (System.currentTimeMillis() - startTime) / 1000 +" (s)");

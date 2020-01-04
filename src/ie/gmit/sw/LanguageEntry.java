@@ -34,12 +34,14 @@ public class LanguageEntry implements Comparable<LanguageEntry> {
         return rank;
     }
 
-    public void setRank(int rank) {
+    public LanguageEntry setRank(int rank) {
         this.rank = rank;
+
+        return this;
     }
 
     public static LanguageEntry incrementFrequency(Integer kmer, LanguageEntry langEntry) {
-        return langEntry.setFrequency(langEntry.getFrequency() + 1);
+        return langEntry.setFrequency(langEntry.frequency + 1);
     }
 
     @Override

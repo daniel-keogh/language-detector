@@ -6,26 +6,28 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class QueryParser extends Parser {
     private Map<Integer, LanguageEntry> queryMap = new TreeMap<>();
-    private int queryLen = 400;
+    private int queryLength = 400;
 
     public QueryParser(String filePath, int ... k) {
         super(filePath, k);
     }
 
-    public Map<Integer, LanguageEntry> getQueryMap() {
+    public Map<Integer, LanguageEntry> getQueryMapping() {
         return new TreeMap<>(queryMap);
     }
 
-    public int getQueryLen() {
-        return queryLen;
+    public int getQueryLength() {
+        return queryLength;
     }
 
-    public void setQueryLen(int queryLen) {
-        this.queryLen = queryLen;
+    public void setQueryLength(int queryLength) {
+        this.queryLength = queryLength;
     }
 
     @Override
@@ -44,7 +46,18 @@ public class QueryParser extends Parser {
             }
         }
 
+        rank();
+
         return null;
+    }
+
+    private void rank() {
+        Set<LanguageEntry> entrySet = new TreeSet<>(queryMap.values());
+
+        int rank = 1;
+        for (var entry : entrySet) {
+            queryMap.put(entry.getKmer(), entry.setRank(++rank));
+        }
     }
 
     /**
@@ -52,16 +65,16 @@ public class QueryParser extends Parser {
      * @throws IOException if an IO error occurs when reading the query file
      */
     private String getQueryString() throws IOException {
-        String content = Files.readString(Path.of(getFilePath()));
-        // Get rid of any extra whitespace
-        content = content.replace("\r", " ")
+        // Read string and get rid of any extra whitespace
+        String queryString = Files.readString(Path.of(getFilePath()))
+                .replace("\r", " ")
                 .replace("\n", " ")
                 .replaceAll(" +", " ");
 
-        if (content.length() > queryLen) {
-            return content.substring(0, queryLen);
+        if (queryString.length() > queryLength) {
+            return queryString.substring(0, queryLength);
         }
 
-        return content;
+        return queryString;
     }
 }
