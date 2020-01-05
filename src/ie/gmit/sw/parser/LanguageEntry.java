@@ -3,9 +3,9 @@ package ie.gmit.sw.parser;
 /**
  * Object that represents a singe k-mer, along with its frequency and ranking.
  * Each k-mer is represented as an integer, rather than a String in order to reduce the amount of
- * memory used.
+ * memory used. Therefore, in order to store a string of text you must first call that string's <code>hashCode()</code> method.
  *
- * This class implements {@link Comparable} which orders each LanguageEntry in descending order of frequency.
+ * This class implements {@link Comparable} and each LanguageEntry is ordered in descending order of frequency.
  */
 public class LanguageEntry implements Comparable<LanguageEntry> {
     private int kmer;

@@ -13,6 +13,11 @@ import java.util.Scanner;
  * Class for displaying a console based menu to the user.
  * By calling the <code>display()</code> method, the user will be prompted to enter the location of the benchmark
  * file, as well as their query.
+ *
+ * The query must be an instance of a class that implements the Query interface.
+ * 
+ * @see Query
+ * @see Path
  */
 public class Menu {
     private Path dataPath;
@@ -35,8 +40,11 @@ public class Menu {
     }
 
     /**
-     * Displays console-based menu to the user. They will be prompted to enter the location of the benchmark file, as well as
-     * their query. If an invalid file is entered, the user will be prompted again.
+     * Displays a console-based menu to the user. They will be prompted to enter the location of the benchmark file, as well as
+     * their query text/file. If an invalid file is entered, the user will continue to be prompted until they enter a valid file.
+     * 
+     * @see QueryFile
+     * @see QueryString
      */
     public void display() {
         System.out.println("=============================================================================");

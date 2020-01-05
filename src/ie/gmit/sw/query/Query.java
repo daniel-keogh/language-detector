@@ -1,7 +1,7 @@
 package ie.gmit.sw.query;
 
 /**
- * An object that will be passed to {@link ie.gmit.sw.parser.QueryParser} for analysis.
+ * An object that will be passed to {@link ie.gmit.sw.parser.QueryParser} for parsing.
  *
  * @see QueryFile
  * @see QueryString
@@ -16,7 +16,7 @@ public interface Query {
     /**
      * Method used by the Parser for retrieving the text that will be parsed.
      *
-     * Typically this need only be the first ~400 characters of content (MAX_QUERY_LENGTH), since that is all that is
+     * Typically this need only be the first ~400 characters of content, since that is all that is
      * required in order to generate a sufficient set of n-grams for correctly identifying a language.
      *
      * @return The string that will be parsed by the QueryParser

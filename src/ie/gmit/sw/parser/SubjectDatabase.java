@@ -39,7 +39,7 @@ public class SubjectDatabase {
     }
 
     /**
-     * Get the Map belonging to the Language <code>lang</code>.
+     * Get the Map belonging to the given language.
      * If the Map doesn't exist, a new one is created.
      * @param lang The Language whose Map is to be returned
      * @return The Map associated with <code>lang</code>

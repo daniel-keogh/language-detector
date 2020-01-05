@@ -9,6 +9,9 @@ import java.util.TreeSet;
 
 /**
  * This class parses a query.
+ *
+ * @see Parser
+ * @see Query
  */
 public class QueryParser extends Parser<Query> {
     private Map<Integer, LanguageEntry> queryMap = new TreeMap<>();
