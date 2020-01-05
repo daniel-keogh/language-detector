@@ -6,7 +6,7 @@ package ie.gmit.sw.menu;
  */
 public enum OutColour {
     ERROR("\u001B[31m"),
-    SUCCESS("\u001B[32m"),
+    INFO("\u001B[35m"),
     RESULT("\u001B[34m"),
     RESET("\u001B[0m");
 

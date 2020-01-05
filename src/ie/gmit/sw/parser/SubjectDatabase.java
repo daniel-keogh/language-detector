@@ -10,17 +10,22 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 public class SubjectDatabase {
+    /** Map each language to its n-gram and their frequency of occurrence. */
     private ConcurrentMap<Language, ConcurrentMap<Integer, LanguageEntry>> db = new ConcurrentSkipListMap<>();
 
+    /**
+     * Get the total size of the subject database.
+     * @return The size of the database
+     */
     public int size() {
         return db.size();
     }
 
     /**
-     * Adds a given n-gram to the DB.
-     * If the n-gram already exists, its frequency of occurrence is instead incremented.
-     * @param s
-     * @param lang
+     * Adds a given n-gram to the Subject Database.
+     * If the n-gram already exists in the DB, its frequency of occurrence is instead incremented.
+     * @param s The n-gram to be added
+     * @param lang The language the given n-gram belongs to
      */
     public void add(CharSequence s, Language lang) {
         int kmer = s.hashCode();
@@ -92,8 +97,8 @@ public class SubjectDatabase {
 
     /**
      * Takes a map of n-grams and calculates which language in the DB is the most likely match.
-     * @param query
-     * @return
+     * @param query The map that will be queried against the database
+     * @return The language that best matches the query
      */
     public Language getLanguage(Map<Integer, LanguageEntry> query) {
         TreeSet<OutOfPlaceMetric> oopm = new TreeSet<>();
@@ -108,9 +113,9 @@ public class SubjectDatabase {
 
     /**
      * Calculates the distance between a query and subject map.
-     * @param query
-     * @param subject
-     * @return
+     * @param query The query map
+     * @param subject The map to compare the query against
+     * @return The distance between a query and subject map.
      */
     private int getOutOfPlaceDistance(Map<Integer, LanguageEntry> query, Map<Integer, LanguageEntry> subject) {
         int distance = 0;

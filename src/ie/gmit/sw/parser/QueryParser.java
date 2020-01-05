@@ -7,13 +7,25 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+/**
+ * This class parses a query.
+ */
 public class QueryParser extends Parser<Query> {
     private Map<Integer, LanguageEntry> queryMap = new TreeMap<>();
 
+    /**
+     * Constructs a new QueryParser object.
+     * @param query The query to be parsed
+     * @param k the list of k-mers to parse from the query text
+     */
     public QueryParser(Query query, int ... k) {
         super(query, k);
     }
 
+    /**
+     * Get the result of the parsed query.
+     * @return A map containing the result of the parsed query.
+     */
     public Map<Integer, LanguageEntry> getQueryMapping() {
         return new TreeMap<>(queryMap);
     }
@@ -39,6 +51,9 @@ public class QueryParser extends Parser<Query> {
         return null;
     }
 
+    /**
+     * Rank each n-gram in the query map in order of its frequency.
+     */
     private void rank() {
         Set<LanguageEntry> entrySet = new TreeSet<>(queryMap.values());
 

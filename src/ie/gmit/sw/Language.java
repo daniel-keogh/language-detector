@@ -1,5 +1,8 @@
 package ie.gmit.sw;
 
+/**
+ * Enumeration of all 235 languages contained in the Wikipedia Language Identification (WiLi) database.
+ */
 public enum Language {
     Achinese ("Achinese"),
     Afrikaans ("Afrikaans"),

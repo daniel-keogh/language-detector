@@ -9,6 +9,11 @@ import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.util.Scanner;
 
+/**
+ * Class for displaying a console based menu to the user.
+ * By calling the <code>display()</code> method, the user will be prompted to enter the location of the benchmark
+ * file, as well as their query.
+ */
 public class Menu {
     private Path dataPath;
     private Query query;
@@ -29,10 +34,14 @@ public class Menu {
         this.query = query;
     }
 
+    /**
+     * Displays console-based menu to the user. They will be prompted to enter the location of the benchmark file, as well as
+     * their query. If an invalid file is entered, the user will be prompted again.
+     */
     public void display() {
-        System.out.println("=============================================================================");
-        System.out.println("|                              Language Detector                            |");
-        System.out.println("=============================================================================");
+        System.out.println(OutColour.format("=============================================================================", OutColour.INFO));
+        System.out.println(OutColour.format("|                              Language Detector                            |", OutColour.INFO));
+        System.out.println(OutColour.format("=============================================================================", OutColour.INFO));
 
         String input;
         var console = new Scanner(System.in);

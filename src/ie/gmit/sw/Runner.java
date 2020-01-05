@@ -59,6 +59,7 @@ public class Runner {
         }
 
         dsParser.resize();
+
         ex.shutdown();
 
         try {

@@ -1,5 +1,10 @@
 package ie.gmit.sw.query;
 
+/**
+ * Object that creates a query string that can then be parsed by a {@link ie.gmit.sw.parser.QueryParser}.
+ *
+ * @see Query
+ */
 public class QueryString implements Query {
     private String queryString;
 

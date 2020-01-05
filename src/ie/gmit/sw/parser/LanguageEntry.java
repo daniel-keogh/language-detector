@@ -1,5 +1,12 @@
 package ie.gmit.sw.parser;
 
+/**
+ * Object that represents a singe k-mer, along with its frequency and ranking.
+ * Each k-mer is represented as an integer, rather than a String in order to reduce the amount of
+ * memory used.
+ *
+ * This class implements {@link Comparable} which orders each LanguageEntry in descending order of frequency.
+ */
 public class LanguageEntry implements Comparable<LanguageEntry> {
     private int kmer;
     private int frequency;
@@ -40,6 +47,13 @@ public class LanguageEntry implements Comparable<LanguageEntry> {
         return this;
     }
 
+    /**
+     * Increases the frequency of a given LanguageEntry by 1.
+     *
+     * @param kmer The kmer associated with the given LanguageEntry
+     * @param langEntry The LanguageEntry to be incremented
+     * @return A reference to the incremented LanguageEntry
+     */
     public static LanguageEntry incrementFrequency(Integer kmer, LanguageEntry langEntry) {
         return langEntry.setFrequency(langEntry.frequency + 1);
     }
