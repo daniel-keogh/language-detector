@@ -28,10 +28,10 @@ public class SubjectParser extends Parser<Path> {
     }
 
     /**
-     * Detects a language
-     * @param query A map of k-mers to query against the subject database.=
+     * Detects a language from a given query.
+     * @param query A map of k-mers to query against the subject database
      * @return The detected language
-     * @throws IllegalStateException If the subject database is empty. This can happen if the dataset file wasn't parsed properly.
+     * @throws IllegalStateException If the subject database is empty. This may happen if the dataset file wasn't parsed properly.
      */
     public Language detect(Map<Integer, LanguageEntry> query) {
         if (db.size() == 0) {
@@ -43,6 +43,7 @@ public class SubjectParser extends Parser<Path> {
 
     /**
      * Resize the subject database leaving only the most frequently occurring 300 entries.
+     * 
      * Empirical evidence shows that the most frequently occurring ~300 n-grams are highly
      * correlated to a language, with the next 300-400 n-grams more correlated to the subject that a
      * text relates to.
@@ -88,13 +89,15 @@ public class SubjectParser extends Parser<Path> {
     }
 
     private void parseRecord(String text, String lang) {
-        Language language = Language.valueOf(lang);
-
-        for (int i = 0; i < getK().length; i++) {
-            for (int j = 0; j <= text.length() - getK()[i]; j++) {
-                CharSequence kmer = text.substring(j, j + getK()[i]);
-                db.add(kmer, language);
+        try {
+            Language language = Language.valueOf(lang);
+            
+            for (int i = 0; i < getK().length; i++) {
+                for (int j = 0; j <= text.length() - getK()[i]; j++) {
+                    CharSequence kmer = text.substring(j, j + getK()[i]);
+                    db.add(kmer, language);
+                }
             }
-        }
+        } catch (IllegalArgumentException ignored) { }
     }
 }

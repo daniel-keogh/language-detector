@@ -1,4 +1,4 @@
-package ie.gmit.sw.menu;
+package ie.gmit.sw;
 
 import ie.gmit.sw.query.Query;
 import ie.gmit.sw.query.QueryFile;

@@ -54,9 +54,7 @@ public class QueryParser extends Parser<Query> {
         return null;
     }
 
-    /**
-     * Rank each n-gram in the query map in order of its frequency.
-     */
+    /** Rank each n-gram in the query map in order of its frequency. */
     private void rank() {
         Set<LanguageEntry> entrySet = new TreeSet<>(queryMap.values());
 

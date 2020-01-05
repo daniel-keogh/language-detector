@@ -1,6 +1,5 @@
 package ie.gmit.sw;
 
-import ie.gmit.sw.menu.Menu;
 import ie.gmit.sw.parser.SubjectParser;
 import ie.gmit.sw.parser.QueryParser;
 
@@ -10,6 +9,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+/**
+ * Entry Point to the application.
+ */
 public class Runner {
     public static void main(String[] args) throws InterruptedException {
         Menu menu = new Menu();

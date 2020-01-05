@@ -21,7 +21,6 @@ public interface Query {
      *
      * @return The string that will be parsed by the QueryParser
      * @throws Exception This method can throw a checked exception
-     * @see ie.gmit.sw.parser.Parser
      */
     String getQueryString() throws Exception;
 

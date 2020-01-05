@@ -9,8 +9,11 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
+/**
+ * Class that stores a mapping of n-grams for each {@link Language} that is parsed by the {@link SubjectParser}.
+ */
 public class SubjectDatabase {
-    /** Map each language to its n-gram and their frequency of occurrence. */
+    /** Map each language to its n-grams and their frequency of occurrence. */
     private ConcurrentMap<Language, ConcurrentMap<Integer, LanguageEntry>> db = new ConcurrentSkipListMap<>();
 
     /**
