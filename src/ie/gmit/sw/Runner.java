@@ -1,7 +1,6 @@
 package ie.gmit.sw;
 
 import ie.gmit.sw.menu.Menu;
-import ie.gmit.sw.menu.OutColour;
 import ie.gmit.sw.parser.SubjectParser;
 import ie.gmit.sw.parser.QueryParser;
 
@@ -64,7 +63,7 @@ public class Runner {
 
         try {
             Language result = dsParser.detect(qParser.getQueryMapping());
-            System.out.printf("\nThe text appears to be written in %s.\n", OutColour.format(result.toString(), OutColour.RESULT));
+            System.out.printf("\nThe text appears to be written in %s.\n", result.toString());
         } catch (IllegalStateException e) {
             System.err.println("\nFailed to detect the language: "+ e.getMessage());
         }

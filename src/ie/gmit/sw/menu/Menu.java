@@ -39,9 +39,9 @@ public class Menu {
      * their query. If an invalid file is entered, the user will be prompted again.
      */
     public void display() {
-        System.out.println(OutColour.format("=============================================================================", OutColour.INFO));
-        System.out.println(OutColour.format("|                              Language Detector                            |", OutColour.INFO));
-        System.out.println(OutColour.format("=============================================================================", OutColour.INFO));
+        System.out.println("=============================================================================");
+        System.out.println("|                              Language Detector                            |");
+        System.out.println("=============================================================================");
 
         String input;
         var console = new Scanner(System.in);
@@ -72,7 +72,7 @@ public class Menu {
 
                 break;
             } catch (FileNotFoundException e) {
-                System.out.println(OutColour.format(e.getMessage() +". Try again.\n", OutColour.ERROR));
+                System.out.println(e.getMessage() +". Try again.\n");
             }
         } while (true);
     }
