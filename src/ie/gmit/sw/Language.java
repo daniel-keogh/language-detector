@@ -97,7 +97,7 @@ public enum Language {
     Irish ("Irish", Script.Basic_Latin),
     Italian ("Italian", Script.Basic_Latin),
     JamaicanPatois ("Jamaican Patois", Script.Basic_Latin),
-    Japanese ("Japanese", Script.Katakana, Script.Hiragana),
+    Japanese ("Japanese", Script.Katakana, Script.Hiragana, Script.CJK),
     Javanese ("Javanese", Script.Basic_Latin),
     Kabardian ("Kabardian", Script.Cyrillic),
     Kabyle ("Kabyle", Script.Basic_Latin),
