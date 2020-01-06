@@ -15,7 +15,7 @@ natural language of the query.
 interface and parse other objects too.
 
 - I perhaps shouldn't have included this since it's incomplete, but it may be possible to significantly reduce the time needed to parse the dataset file if
-you can first determine what script the query is written in. For instance, if the query is found to be written in Cyrillic, then there would be no need to parse
+you can first determine what script the query is written in. For instance, if the query was found to be written in Cyrillic, then there would be no need to parse
 the dataset entries for languages that don't use the Cyrillic script. This can be done by checking if the Unicode value of each 1-gram of the query is within a certain range.
 I wrote a method inside `ie.gmit.sw.Script` that [seems to be able to determine the script of a string of text](https://user-images.githubusercontent.com/37158241/71834878-2b75c980-30a8-11ea-9ee4-f2759bda204b.png),
 but I haven't implemented this feature into the parser.
