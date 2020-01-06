@@ -29,7 +29,7 @@ public class Runner {
 
         Future<Void> benchmark = ex.submit(subParser);
         System.out.println("Building subject database...");
-
+        
         try {
             try {
                 query.get();
