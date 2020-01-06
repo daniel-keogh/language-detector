@@ -2,6 +2,7 @@ package ie.gmit.sw;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.TreeMap;
 
 /**
@@ -63,7 +64,7 @@ public enum Script {
      * Since the text may contain characters in multiple scripts, this method will try to return the closest match.
      *
      * @param text The text to process
-     * @return The Script that was the closest match
+     * @return The Script that was the closest match, or null if there was no match
      */
     public static Script determine(String text) {
         Map<Script, Integer> matchingScripts = new TreeMap<>();
@@ -82,8 +83,12 @@ public enum Script {
             }
         }
 
-        // Find the highest Integer value in the map since that is most likely the script.
-        Map.Entry<Script, Integer> maxEntry = Collections.max(matchingScripts.entrySet(), Map.Entry.comparingByValue());
-        return maxEntry.getKey();
+        try {
+            // Find the highest Integer value in the map since that is most likely the script.
+            Map.Entry<Script, Integer> maxEntry = Collections.max(matchingScripts.entrySet(), Map.Entry.comparingByValue());
+            return maxEntry.getKey();
+        } catch (NoSuchElementException e) {
+            return null;
+        }
     }
 }
