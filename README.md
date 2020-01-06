@@ -10,7 +10,7 @@ Java programme that compares some query text against an [n-gram](https://en.wiki
 
 - The query and dataset are both parsed in separate threads, with each line of the dataset file parsed in its own worker thread using an `ExecutorService`.
 
-- The query may be a text file or a string. However, you could also potentially implement the `ie.gmit.sw.Query` interface and design your own queries to be parsed by `ie.gmit.sw.QueryParser`.
+- The query may be a text file, or it may be a string typed directly from the console menu.
 
 ## Build
 
@@ -21,23 +21,15 @@ Java programme that compares some query text against an [n-gram](https://en.wiki
 Download the project and run the following from inside the `bin/` directory to create a JAR file.
 
 ```sh
-$ jar –cf oop.jar ie/gmit/sw/*.class
+$ jar –cf ./oop.jar *
 ```
 
 ## Run
 
-```
+```sh
 $ java –cp ./oop.jar ie.gmit.sw.Runner
 ```
-
-## Example Output
-
-<!-- TODO -->
 
 ## Limitations
 
 My implementation does not appear to be very accurate and rarely correctly determines the language of the query.
-
-## Authors
-
-Daniel Keogh

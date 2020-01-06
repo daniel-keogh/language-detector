@@ -1,5 +1,6 @@
 package ie.gmit.sw.parser;
 
+import ie.gmit.sw.LanguageEntry;
 import ie.gmit.sw.query.Query;
 
 import java.util.Map;
@@ -20,6 +21,7 @@ public class QueryParser extends Parser<Query> {
      * Constructs a new QueryParser object.
      * @param query The query to be parsed
      * @param k the list of k-mers to parse from the query text
+     * @throws IllegalArgumentException If k is an empty array
      */
     public QueryParser(Query query, int ... k) {
         super(query, k);

@@ -8,6 +8,10 @@ package ie.gmit.sw.query;
 public class QueryString implements Query {
     private String queryString;
 
+    /**
+     * Constructs a new QueryString object using the given String.
+     * @param queryString The string to query
+     */
     public QueryString(String queryString) {
         this.queryString = removeWhitespace(queryString);
     }

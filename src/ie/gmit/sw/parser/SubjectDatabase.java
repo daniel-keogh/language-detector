@@ -1,6 +1,7 @@
 package ie.gmit.sw.parser;
 
 import ie.gmit.sw.Language;
+import ie.gmit.sw.LanguageEntry;
 
 import java.util.Collection;
 import java.util.Map;
@@ -118,7 +119,7 @@ public class SubjectDatabase {
      * Calculates the distance between a query and subject map.
      * @param query The query map
      * @param subject The map to compare the query against
-     * @return The distance between a query and subject map.
+     * @return The distance between a query and subject map
      */
     private int getOutOfPlaceDistance(Map<Integer, LanguageEntry> query, Map<Integer, LanguageEntry> subject) {
         int distance = 0;

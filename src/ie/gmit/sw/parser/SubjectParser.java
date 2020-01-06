@@ -1,6 +1,7 @@
 package ie.gmit.sw.parser;
 
 import ie.gmit.sw.Language;
+import ie.gmit.sw.LanguageEntry;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -22,6 +23,7 @@ public class SubjectParser extends Parser<Path> {
      * Constructs a new SubjectParser object.
      * @param filePath The path to the dataset file
      * @param k the list of k-mers to parse from the query text
+     * @throws IllegalArgumentException if k is an empty array
      */
     public SubjectParser(Path filePath, int ... k) {
         super(filePath, k);
@@ -78,6 +80,7 @@ public class SubjectParser extends Parser<Path> {
         }
 
         br.close();
+        
         executor.shutdown();
         try {
             executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);

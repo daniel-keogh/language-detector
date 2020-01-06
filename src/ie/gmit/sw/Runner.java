@@ -20,14 +20,14 @@ public class Runner {
         double startTime = System.currentTimeMillis();
 
         QueryParser qParser = new QueryParser(menu.getQuery(), 1, 2, 3, 4);
-        SubjectParser dsParser = new SubjectParser(menu.getDataPath(), 1, 2, 3, 4);
+        SubjectParser subParser = new SubjectParser(menu.getDataPath(), 1, 2, 3, 4);
 
         ExecutorService ex = Executors.newFixedThreadPool(2);
 
         Future<Void> query = ex.submit(qParser);
         System.out.println("Processing query...");
 
-        Future<Void> benchmark = ex.submit(dsParser);
+        Future<Void> benchmark = ex.submit(subParser);
         System.out.println("Building subject database...");
 
         try {
@@ -59,12 +59,12 @@ public class Runner {
             return;
         }
 
-        dsParser.resize();
+        subParser.resize();
 
         ex.shutdown();
 
         try {
-            Language result = dsParser.detect(qParser.getQueryMapping());
+            Language result = subParser.detect(qParser.getQueryMapping());
             System.out.printf("\nThe text appears to be written in %s.\n", result.toString());
         } catch (IllegalStateException e) {
             System.err.println("\nFailed to detect the language: "+ e.getMessage());

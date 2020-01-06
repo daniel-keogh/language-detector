@@ -1,7 +1,7 @@
-package ie.gmit.sw.parser;
+package ie.gmit.sw;
 
 /**
- * Object that represents a singe k-mer, along with its frequency and ranking.
+ * Object that represents a singe k-mer/n-gram, along with its frequency and ranking.
  * Each k-mer is represented as an integer, rather than a String in order to reduce the amount of
  * memory used. Therefore, in order to store a string of text you must first call that string's <code>hashCode()</code> method.
  *
