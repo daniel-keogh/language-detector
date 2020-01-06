@@ -10,7 +10,7 @@ import java.util.TreeMap;
 public enum Script {
     Arabic (0x0600, 0x06FF),
     Armenian (0x0530, 0x058F),
-    Basic_Latin (0x0020, 0x007F), // Basic Latin A-Z, excludes accented characters etc.
+    Basic_Latin (0x0041, 0x007A), // Basic Latin A-Z, excludes accented characters etc.
     Bengali (0x0980, 0x09FF),
     Cherokee (0x13A0, 0x13FF),
     CJK (0x4E00, 0x9FFF), // Chinese, Japanese, Korean unified Ideographs
