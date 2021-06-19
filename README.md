@@ -1,18 +1,18 @@
 # Language Detector
 
-Y3S1 OOP Assignment
+Y3S1 Object Oriented Programming Assignment
 
 ## Description
 
-Java programme that compares some query text against an [n-gram](https://en.wikipedia.org/wiki/N-gram) collection of subject text and attempts to determine the natural language of the query.
+A Java program that compares some query text against an [*n*-gram](https://en.wikipedia.org/wiki/N-gram) collection of subject text and attempts to determine the natural language of the query.
 
 ## Features
 
 - The query and dataset are both parsed in separate threads, with each line of the dataset file parsed in its own worker thread using an `ExecutorService`.
 
-- The query may be a text file, or it may be a string typed directly from the console menu. You could also potentially implement the `ie.gmit.sw.query.Query` interface and parse other objects too.
+- The query may be a text file, or it may be a string typed directly from the console menu.
 
-- I perhaps shouldn't have included this since it's incomplete, but it may be possible to significantly reduce the time needed to parse the dataset file if you can first determine what script the query is written in. For instance, if the query was found to be written in Cyrillic, then there would be no need to parse the dataset entries for languages that don't use the Cyrillic script. This can be done by checking if the Unicode value of each 1-gram of the query is within a certain range. I wrote a method inside `ie.gmit.sw.Script` that [seems to be able to determine the script of a string of text](https://user-images.githubusercontent.com/37158241/71834878-2b75c980-30a8-11ea-9ee4-f2759bda204b.png), but I haven't implemented this feature into the parser.
+- To reduce the time needed to parse the dataset file, the program will first try to determine what script the query is written in. For instance, if the query was found to be written in Cyrillic, then there would be no need to parse the dataset entries for languages that don't use the Cyrillic script. Determining the script was done by checking if the Unicode value of each 1-gram of the query is within a certain `Character.UnicodeBlock`.
 
 ## Build
 
@@ -32,6 +32,36 @@ $ jar –cf ./oop.jar *
 $ java –cp ./oop.jar ie.gmit.sw.Runner
 ```
 
-## Limitations
+## Example Output
 
-My implementation does not appear to be very accurate and rarely correctly determines the language of the query.
+While the application's accuracy is limited, it is still often able to accurately detect the language of a query. For instance, testing with the Japanese (`jp.txt`) and French (`fr.txt`) samples provided in the `samples/` directory produces the following output.
+
+### Japanese
+
+```
+$ Enter WiLi data location or press enter to use the default: datasets/wili-2018-Large-117500-Edited.txt
+$ Enter the query text/file: samples/jp.txt
+Processing query...
+Building subject database...
+Finished processing query.
+Finished building subject database.
+
+The text appears to be written in Japanese.
+
+Time: 2.643 (s)
+```
+
+### French
+
+```
+$ Enter WiLi data location or press enter to use the default:
+$ Enter the query text/file: samples/fr.txt
+Processing query...
+Building subject database...
+Finished processing query.
+Finished building subject database.
+
+The text appears to be written in French.
+
+Time: 35.619 (s)
+```
