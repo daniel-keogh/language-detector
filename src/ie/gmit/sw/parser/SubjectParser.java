@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class SubjectParser extends Parser<Path> {
     private final SubjectDatabase db = new SubjectDatabase();
-    private Character.UnicodeBlock queryScript;
+    private Character.UnicodeScript queryScript;
 
     /**
      * Constructs a new SubjectParser object.
@@ -36,11 +36,11 @@ public class SubjectParser extends Parser<Path> {
      * Constructs a new SubjectParser object.
      *
      * @param filePath    The path to the dataset file
-     * @param queryScript The {@link java.lang.Character.UnicodeBlock} the query belongs to. Languages not in this block are ignored.
+     * @param queryScript The {@link java.lang.Character.UnicodeScript} the query belongs to. Languages that don't use this script are ignored
      * @param k           the list of k-mers to parse from the query text
      * @throws IllegalArgumentException if k is an empty array
      */
-    public SubjectParser(Path filePath, Character.UnicodeBlock queryScript, int... k) {
+    public SubjectParser(Path filePath, Character.UnicodeScript queryScript, int... k) {
         super(filePath, k);
         this.queryScript = queryScript;
     }
@@ -50,7 +50,7 @@ public class SubjectParser extends Parser<Path> {
      *
      * @param query A map of k-mers to query against the subject database
      * @return The detected language
-     * @throws IllegalStateException If the subject database is empty. This may happen if the dataset file wasn't parsed properly.
+     * @throws IllegalStateException If the subject database is empty. This may happen if the dataset file wasn't parsed properly
      */
     public Language detect(Map<Integer, LanguageEntry> query) {
         if (db.size() == 0) {

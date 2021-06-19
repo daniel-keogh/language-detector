@@ -110,14 +110,15 @@ public class Menu {
 
         QueryParser qParser = new QueryParser(query, 1, 2, 3, 4);
 
-        Character.UnicodeBlock block;
+        Character.UnicodeScript script;
+
         try {
-            block = Script.of(qParser.getContent().getQuery());
+            script = Script.of(qParser.getContent().getQuery());
         } catch (Exception e) {
-            block = null;
+            script = null;
         }
 
-        SubjectParser subParser = new SubjectParser(dataPath, block, 1, 2, 3, 4);
+        SubjectParser subParser = new SubjectParser(dataPath, script, 1, 2, 3, 4);
 
         ExecutorService ex = Executors.newFixedThreadPool(2);
 

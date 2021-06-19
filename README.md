@@ -12,7 +12,7 @@ A Java program that compares some query text against an [*n*-gram](https://en.wi
 
 - The query may be a text file, or it may be a string typed directly from the console menu.
 
-- To reduce the time needed to parse the dataset file, the program will first try to determine what script the query is written in. For instance, if the query was found to be written in Cyrillic, then there would be no need to parse the dataset entries for languages that don't use the Cyrillic script. Determining the script was done by checking if the Unicode value of each 1-gram of the query is within a certain `Character.UnicodeBlock`.
+- To reduce the time & space needed to parse the dataset file, the program will first try to determine what script the query is written in. For instance, if the query was found to be written in Cyrillic, then there would be no need to parse the dataset entries for languages that don't use the Cyrillic script. Determining the script was done by finding the most common `Character.UnicodeScript` seen in the query.
 
 ## Build
 
