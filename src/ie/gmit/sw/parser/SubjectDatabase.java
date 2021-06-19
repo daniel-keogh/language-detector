@@ -14,11 +14,14 @@ import java.util.concurrent.ConcurrentSkipListMap;
  * Class that stores a mapping of n-grams for each {@link Language} that is parsed by the {@link SubjectParser}.
  */
 public class SubjectDatabase {
-    /** Map each language to its n-grams and their frequency of occurrence. */
-    private ConcurrentMap<Language, ConcurrentMap<Integer, LanguageEntry>> db = new ConcurrentSkipListMap<>();
+    /**
+     * Map each language to its n-grams and their frequency of occurrence.
+     */
+    private final ConcurrentMap<Language, ConcurrentMap<Integer, LanguageEntry>> db = new ConcurrentSkipListMap<>();
 
     /**
      * Get the total size of the subject database.
+     *
      * @return The size of the database
      */
     public int size() {
@@ -28,7 +31,8 @@ public class SubjectDatabase {
     /**
      * Adds a given n-gram to the Subject Database.
      * If the n-gram already exists in the DB, its frequency of occurrence is instead incremented.
-     * @param s The n-gram to be added
+     *
+     * @param s    The n-gram to be added
      * @param lang The language the given n-gram belongs to
      */
     public void add(CharSequence s, Language lang) {
@@ -36,7 +40,7 @@ public class SubjectDatabase {
         ConcurrentMap<Integer, LanguageEntry> langDb = getLanguageEntries(lang);
 
         if (langDb.containsKey(kmer)) {
-            langDb.computeIfPresent(kmer, LanguageEntry::incrementFrequency);
+            langDb.computeIfPresent(kmer, ($, entry) -> entry.incrementFrequency());
         } else {
             langDb.put(kmer, new LanguageEntry(kmer, 1));
         }
@@ -45,10 +49,11 @@ public class SubjectDatabase {
     /**
      * Get the Map belonging to the given language.
      * If the Map doesn't exist, a new one is created.
+     *
      * @param lang The Language whose Map is to be returned
      * @return The Map associated with <code>lang</code>
      */
-    private ConcurrentMap<Integer, LanguageEntry> getLanguageEntries(Language lang){
+    private ConcurrentMap<Integer, LanguageEntry> getLanguageEntries(Language lang) {
         ConcurrentMap<Integer, LanguageEntry> langDb;
 
         if (db.containsKey(lang)) {
@@ -63,6 +68,7 @@ public class SubjectDatabase {
 
     /**
      * Reduces the number of n-gram entries stored for each language to the most frequently occurring only.
+     *
      * @param max The maximum number of n-grams to store for each language.
      */
     public void resize(int max) {
@@ -76,7 +82,8 @@ public class SubjectDatabase {
 
     /**
      * Gets a Map containing the most frequently occurring n-grams for a given language.
-     * @param max The maximum number of n-grams the new map should contain
+     *
+     * @param max  The maximum number of n-grams the new map should contain
      * @param lang The language the n-grams belong to
      * @return The most frequently occurring n-grams for the Language <code>lang</code>
      */
@@ -101,6 +108,7 @@ public class SubjectDatabase {
 
     /**
      * Takes a map of n-grams and calculates which language in the DB is the most likely match.
+     *
      * @param query The map that will be queried against the database
      * @return The language that best matches the query
      */
@@ -117,7 +125,8 @@ public class SubjectDatabase {
 
     /**
      * Calculates the distance between a query and subject map.
-     * @param query The query map
+     *
+     * @param query   The query map
      * @param subject The map to compare the query against
      * @return The distance between a query and subject map
      */
@@ -138,9 +147,9 @@ public class SubjectDatabase {
         return distance;
     }
 
-    private class OutOfPlaceMetric implements Comparable<OutOfPlaceMetric> {
-        private Language lang;
-        private int distance;
+    private static class OutOfPlaceMetric implements Comparable<OutOfPlaceMetric> {
+        private final Language lang;
+        private final int distance;
 
         public OutOfPlaceMetric(Language lang, int distance) {
             this.lang = lang;
@@ -168,23 +177,29 @@ public class SubjectDatabase {
 
     @Override
     public String toString() {
-
         StringBuilder sb = new StringBuilder();
 
         int langCount = 0;
         int kmerCount = 0;
         Set<Language> keys = db.keySet();
+
         for (Language lang : keys) {
             langCount++;
-            sb.append(lang.name() + "->\n");
+            sb.append(lang.name()).append("->\n");
 
             Collection<LanguageEntry> m = new TreeSet<>(db.get(lang).values());
             kmerCount += m.size();
+
             for (LanguageEntry le : m) {
-                sb.append("\t" + le + "\n");
+                sb.append("\t").append(le).append("\n");
             }
         }
-        sb.append(kmerCount + " total k-mers in " + langCount + " languages");
+
+        sb.append(kmerCount)
+                .append(" total k-mers in ")
+                .append(langCount).
+                append(" languages");
+
         return sb.toString();
     }
 }

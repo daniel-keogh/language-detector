@@ -15,20 +15,22 @@ import java.util.TreeSet;
  * @see Query
  */
 public class QueryParser extends Parser<Query> {
-    private Map<Integer, LanguageEntry> queryMap = new TreeMap<>();
+    private final Map<Integer, LanguageEntry> queryMap = new TreeMap<>();
 
     /**
      * Constructs a new QueryParser object.
+     *
      * @param query The query to be parsed
-     * @param k the list of k-mers to parse from the query text
+     * @param k     the list of k-mers to parse from the query text
      * @throws IllegalArgumentException If k is an empty array
      */
-    public QueryParser(Query query, int ... k) {
+    public QueryParser(Query query, int... k) {
         super(query, k);
     }
 
     /**
      * Get the result of the parsed query.
+     *
      * @return A map containing the result of the parsed query.
      */
     public Map<Integer, LanguageEntry> getQueryMapping() {
@@ -37,14 +39,14 @@ public class QueryParser extends Parser<Query> {
 
     @Override
     public Void call() throws Exception {
-        String text = getParsable().getQueryString();
+        String text = getContent().getQuery();
 
         for (int i = 0; i < getK().length; i++) {
             for (int j = 0; j <= text.length() - getK()[i]; j++) {
                 int kmer = text.substring(j, j + getK()[i]).hashCode();
 
                 if (queryMap.containsKey(kmer)) {
-                    queryMap.computeIfPresent(kmer, LanguageEntry::incrementFrequency);
+                    queryMap.computeIfPresent(kmer, ($, entry) -> entry.incrementFrequency());
                 } else {
                     queryMap.put(kmer, new LanguageEntry(kmer, 1));
                 }
@@ -56,13 +58,15 @@ public class QueryParser extends Parser<Query> {
         return null;
     }
 
-    /** Rank each n-gram in the query map in order of its frequency. */
+    /**
+     * Rank each n-gram in the query map in order of its frequency.
+     */
     private void rank() {
         Set<LanguageEntry> entrySet = new TreeSet<>(queryMap.values());
 
         int rank = 1;
         for (var entry : entrySet) {
-            queryMap.put(entry.getKmer(), entry.setRank(++rank));
+            queryMap.put(entry.getKmer(), entry.setRank(rank++));
         }
     }
 }

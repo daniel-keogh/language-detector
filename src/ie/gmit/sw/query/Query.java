@@ -15,14 +15,14 @@ public interface Query {
 
     /**
      * Method used by the Parser for retrieving the text that will be parsed.
-     *
+     * <p>
      * Typically this need only be the first ~400 characters of content, since that is all that is
      * required in order to generate a sufficient set of n-grams for correctly identifying a language.
      *
      * @return The string that will be parsed by the QueryParser
      * @throws Exception This method can throw a checked exception
      */
-    String getQueryString() throws Exception;
+    String getQuery() throws Exception;
 
     /**
      * Removes any newlines, carriage returns and extra spaces from the query string.
@@ -31,7 +31,8 @@ public interface Query {
      * @return The query string sans whitespace
      */
     default String removeWhitespace(String queryString) {
-        return queryString.replace("\r", " ")
+        return queryString
+                .replace("\r", " ")
                 .replace("\n", " ")
                 .replaceAll(" +", " ");
     }

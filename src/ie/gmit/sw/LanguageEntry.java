@@ -4,11 +4,11 @@ package ie.gmit.sw;
  * Object that represents a singe k-mer/n-gram, along with its frequency and ranking.
  * Each k-mer is represented as an integer, rather than a String in order to reduce the amount of
  * memory used. Therefore, in order to store a string of text you must first call that string's <code>hashCode()</code> method.
- *
+ * <p>
  * This class implements {@link Comparable} and each LanguageEntry is ordered in descending order of frequency.
  */
 public class LanguageEntry implements Comparable<LanguageEntry> {
-    private int kmer;
+    private final int kmer;
     private int frequency;
     private int rank;
 
@@ -21,19 +21,17 @@ public class LanguageEntry implements Comparable<LanguageEntry> {
         return kmer;
     }
 
-    public LanguageEntry setKmer(int kmer) {
-        this.kmer = kmer;
-
-        return this;
-    }
-
     public int getFrequency() {
         return frequency;
     }
 
     public LanguageEntry setFrequency(int frequency) {
         this.frequency = frequency;
+        return this;
+    }
 
+    public LanguageEntry incrementFrequency() {
+        this.frequency++;
         return this;
     }
 
@@ -43,19 +41,7 @@ public class LanguageEntry implements Comparable<LanguageEntry> {
 
     public LanguageEntry setRank(int rank) {
         this.rank = rank;
-
         return this;
-    }
-
-    /**
-     * Increases the frequency of a given LanguageEntry by 1.
-     *
-     * @param kmer The kmer associated with the given LanguageEntry
-     * @param langEntry The LanguageEntry to be incremented
-     * @return A reference to the incremented LanguageEntry
-     */
-    public static LanguageEntry incrementFrequency(Integer kmer, LanguageEntry langEntry) {
-        return langEntry.setFrequency(langEntry.frequency + 1);
     }
 
     @Override
