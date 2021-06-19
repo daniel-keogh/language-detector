@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"ie.gmit.sw"},{"l":"ie.gmit.sw.parser"},{"l":"ie.gmit.sw.query"}]
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"ie.gmit.sw"},{"l":"ie.gmit.sw.parser"},{"l":"ie.gmit.sw.query"},{"l":"ie.gmit.sw.ui"},{"l":"ie.gmit.sw.utils"}]
