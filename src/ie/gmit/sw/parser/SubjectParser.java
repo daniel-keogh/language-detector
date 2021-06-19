@@ -113,10 +113,8 @@ public class SubjectParser extends Parser<Path> {
             Language language = Language.valueOf(lang);
 
             // Don't parse the record if the query is not written in the same script
-            for (var script : language.scripts()) {
-                if (script != queryScript) {
-                    return;
-                }
+            if (!Arrays.asList(language.scripts()).contains(queryScript)) {
+                return;
             }
 
             for (int i = 0; i < getK().length; i++) {
