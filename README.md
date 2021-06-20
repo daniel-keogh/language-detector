@@ -23,13 +23,13 @@ A Java program that compares some query text against an [*n*-gram](https://en.wi
 Download the project and run the following from inside the `bin/` directory to create a JAR file.
 
 ```sh
-$ jar –cf ./oop.jar *
+$ jar -cf ./oop.jar *
 ```
 
 ## Run
 
 ```sh
-$ java –cp ./oop.jar ie.gmit.sw.Runner
+$ java -cp ./oop.jar ie.gmit.sw.Runner
 ```
 
 ## Example Output
@@ -39,7 +39,7 @@ While the application's accuracy is limited, it is still often able to accuratel
 ### Japanese
 
 ```
-$ Enter WiLi data location or press enter to use the default: datasets/wili-2018-Large-117500-Edited.txt
+$ Enter WiLi data location (or press enter to use the default): datasets/wili-2018-Large-117500-Edited.txt
 $ Enter the query text/file: samples/jp.txt
 Processing query...
 Building subject database...
@@ -54,7 +54,7 @@ Time: 2.643 (s)
 ### French
 
 ```
-$ Enter WiLi data location or press enter to use the default:
+$ Enter WiLi data location (or press enter to use the default):
 $ Enter the query text/file: samples/fr.txt
 Processing query...
 Building subject database...

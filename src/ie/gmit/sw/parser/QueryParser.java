@@ -34,7 +34,7 @@ public class QueryParser extends Parser<Query> {
      * @return A map containing the result of the parsed query.
      */
     public Map<Integer, LanguageEntry> getQueryMapping() {
-        return new TreeMap<>(queryMap);
+        return queryMap;
     }
 
     @Override

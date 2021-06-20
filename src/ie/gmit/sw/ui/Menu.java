@@ -70,7 +70,7 @@ public class Menu {
             while (true) {
                 try {
                     if (dataPath == null) {
-                        System.out.print("$ Enter WiLi data location or press enter to use the default: ");
+                        System.out.print("$ Enter WiLi data location (or press enter to use the default): ");
                         input = console.nextLine().trim();
 
                         if (input.isEmpty()) {
@@ -80,13 +80,17 @@ public class Menu {
                         if (isFile(input)) {
                             this.dataPath = Path.of(input);
                         } else {
-                            throw new FileNotFoundException("That file does not exist");
+                            throw new FileNotFoundException("The dataset file could not be found");
                         }
                     }
 
                     if (query == null) {
                         System.out.print("$ Enter the query text/file: ");
                         input = console.nextLine().trim();
+
+                        if (input.isEmpty()) {
+                            continue;
+                        }
 
                         if (isFile(input)) {
                             this.query = new QueryFile(Path.of(input));
@@ -129,20 +133,13 @@ public class Menu {
         System.out.println("Building subject database...");
 
         try {
-            try {
-                query.get();
-                System.out.println("Finished processing query.");
-            } catch (ExecutionException e) {
-                printExecutionError(e, query);
-            }
+            query.get();
+            System.out.println("Finished processing query.");
 
-            try {
-                benchmark.get();
-                System.out.println("Finished building subject database.");
-            } catch (ExecutionException e) {
-                printExecutionError(e, dataPath);
-            }
+            benchmark.get();
+            System.out.println("Finished building subject database.");
         } catch (ExecutionException | InterruptedException e) {
+            System.err.println("[Error] " + e.getMessage());
             ex.shutdownNow();
             System.exit(1);
         }
@@ -163,15 +160,6 @@ public class Menu {
 
     private static boolean isFile(String filename) {
         return new File(filename).isFile();
-    }
-
-    private static void printExecutionError(ExecutionException e, Object res) throws ExecutionException {
-        if (e.getCause() instanceof IOException) {
-            System.err.println("[Error] There was an issue with reading: " + res);
-        } else {
-            System.err.println(e.getMessage());
-        }
-        throw e;
     }
 
     private static double calcDuration(double startTime) {
