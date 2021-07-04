@@ -11,6 +11,7 @@ import java.nio.file.Path;
  */
 public class QueryFile implements Query {
     private final Path filepath;
+    private String queryString;
 
     /**
      * Constructs a new QueryFile using the given filepath
@@ -30,12 +31,16 @@ public class QueryFile implements Query {
      */
     @Override
     public String getQuery() throws IOException {
-        String queryString = removeWhitespace(Files.readString(filepath));
+        if (this.queryString == null) {
+            String queryString = removeWhitespace(Files.readString(filepath));
 
-        if (queryString.length() > MAX_QUERY_LENGTH) {
-            return queryString.substring(0, MAX_QUERY_LENGTH);
+            if (queryString.length() > MAX_QUERY_LENGTH) {
+                this.queryString = queryString.substring(0, MAX_QUERY_LENGTH);
+            } else {
+                this.queryString = queryString;
+            }
         }
 
-        return queryString;
+        return this.queryString;
     }
 }

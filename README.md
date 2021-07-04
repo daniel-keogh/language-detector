@@ -1,6 +1,6 @@
 # Language Detector
 
-Y3S1 Object Oriented Programming Assignment
+Y3S1 Object-Oriented Programming Assignment
 
 ## Description
 
@@ -39,29 +39,29 @@ While the application's accuracy is limited, it is still often able to accuratel
 ### Japanese
 
 ```
-$ Enter WiLi data location (or press enter to use the default): datasets/wili-2018-Large-117500-Edited.txt
+$ Choose WiLi dataset ('L' for Large, 'S' for Small): S
 $ Enter the query text/file: samples/jp.txt
+Query file entered.
 Processing query...
 Building subject database...
 Finished processing query.
 Finished building subject database.
 
 The text appears to be written in Japanese.
-
-Time: 2.643 (s)
+Time: 0.433 (s)
 ```
 
 ### French
 
 ```
-$ Enter WiLi data location (or press enter to use the default):
+$ Choose WiLi dataset ('L' for Large, 'S' for Small): L
 $ Enter the query text/file: samples/fr.txt
+Query file entered.
 Processing query...
 Building subject database...
 Finished processing query.
 Finished building subject database.
 
 The text appears to be written in French.
-
-Time: 35.619 (s)
+Time: 34.957 (s)
 ```

@@ -10,7 +10,6 @@ import ie.gmit.sw.utils.Script;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
@@ -30,7 +29,8 @@ public class Menu {
     private Path dataPath;
     private Query query;
 
-    private static final String DEFAULT_DATA_PATH = "datasets/wili-2018-Large-117500-Edited.txt";
+    private static final String LARGE_DATASET = "datasets/wili-2018-Large-117500-Edited.txt";
+    private static final String SMALL_DATASET = "datasets/wili-2018-Small-11750-Edited.txt";
 
     public Path getDataPath() {
         return dataPath;
@@ -65,38 +65,14 @@ public class Menu {
         System.out.println("=============================================================================");
 
         try (var console = new Scanner(System.in)) {
-            String input;
-
             while (true) {
                 try {
                     if (dataPath == null) {
-                        System.out.print("$ Enter WiLi data location (or press enter to use the default): ");
-                        input = console.nextLine().trim();
-
-                        if (input.isEmpty()) {
-                            input = DEFAULT_DATA_PATH;
-                        }
-
-                        if (isFile(input)) {
-                            this.dataPath = Path.of(input);
-                        } else {
-                            throw new FileNotFoundException("The dataset file could not be found");
-                        }
+                        getDatasetInput(console);
                     }
 
                     if (query == null) {
-                        System.out.print("$ Enter the query text/file: ");
-                        input = console.nextLine().trim();
-
-                        if (input.isEmpty()) {
-                            continue;
-                        }
-
-                        if (isFile(input)) {
-                            this.query = new QueryFile(Path.of(input));
-                        } else {
-                            this.query = new QueryString(input);
-                        }
+                        getQueryInput(console);
                     }
 
                     break;
@@ -105,8 +81,53 @@ public class Menu {
                 }
             }
         }
+    }
 
-        detect();
+    private void getDatasetInput(Scanner console) throws FileNotFoundException {
+        while (true) {
+            System.out.print("$ Choose WiLi dataset ('L' for Large, 'S' for Small): ");
+            String input = console.nextLine().toUpperCase().trim();
+
+            if (input.equals("L")) {
+                input = LARGE_DATASET;
+            } else if (input.equals("S")) {
+                input = SMALL_DATASET;
+            } else {
+                continue;
+            }
+
+            if (isFile(input)) {
+                this.dataPath = Path.of(input);
+                break;
+            } else {
+                throw new FileNotFoundException("The dataset file could not be found");
+            }
+        }
+    }
+
+    private void getQueryInput(Scanner console) {
+        while (true) {
+            System.out.print("$ Enter the query text/file: ");
+            String input = console.nextLine().trim();
+
+            if (input.isEmpty()) {
+                continue;
+            }
+
+            if (input.equals("-1")) {
+                break;
+            }
+
+            if (isFile(input)) {
+                this.query = new QueryFile(Path.of(input));
+                System.out.println("Query file entered.");
+            } else {
+                this.query = new QueryString(input);
+                System.out.println("Query string entered.");
+            }
+
+            detect();
+        }
     }
 
     private void detect() {
@@ -150,12 +171,12 @@ public class Menu {
 
         try {
             Language result = subParser.detect(qParser.getQueryMapping());
-            System.out.printf("\nThe text appears to be written in %s.\n", result.toString());
+            System.out.printf("\nThe text appears to be written in %s.", result.language());
         } catch (IllegalStateException e) {
             System.err.println("\n[Error] Failed to detect the language: " + e.getMessage());
         }
 
-        System.out.println("\nTime: " + calcDuration(startTime) + " (s)");
+        System.out.println("\nTime: " + calcDuration(startTime) + " (s)\n");
     }
 
     private static boolean isFile(String filename) {
